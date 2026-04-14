@@ -1,10 +1,10 @@
 import React from "react";
 
 const services = [
-  "Website Development",
-  "Landing Pages",
-  "Admin Panels",
-  "Optimization",
+  "Static Sites",
+  "CMS Admin Panels",
+  "SEO & Analytics",
+  "Branding & Design",
 ];
 
 const portfolioItems = [
