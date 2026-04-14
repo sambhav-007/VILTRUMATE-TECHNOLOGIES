@@ -47,14 +47,13 @@ function App() {
       </header>
 
       <main>
-        <section className="hero section-pad" aria-labelledby="hero-title">
+        <section className="hero section-pad" aria-label="Viltrumate Technologies hero">
           <div className="container hero-inner">
             <img
               className="hero-logo"
               src="/viltrumate-logo.png"
               alt="Viltrumate Technologies logo"
             />
-            <h1 id="hero-title">Viltrumate Technologies</h1>
             <p>We build high-performance websites that drive results.</p>
             <a className="btn-outline" href="#contact">
               Get Started

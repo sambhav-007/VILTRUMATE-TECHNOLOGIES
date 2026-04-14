@@ -123,24 +123,31 @@ p {
 .hero {
   border-top: 0;
   min-height: calc(100svh - 4.3rem);
+  padding: clamp(0.5rem, 1.8vh, 1.2rem) 0;
   display: grid;
   place-items: center;
 }
 
+.hero .container {
+  width: min(98%, 1800px);
+}
+
 .hero-inner {
   text-align: center;
-  max-width: 70rem;
+  max-width: none;
 }
 
 .hero-logo {
-  width: min(46rem, 90%);
-  margin: 0 auto 2.3rem;
+  width: min(150rem, 100%);
+  max-height: min(66svh, calc(100svh - 19rem));
+  margin: 0 auto 0.6rem;
   display: block;
+  object-fit: contain;
 }
 
 .hero p {
   max-width: 45ch;
-  margin: 1.2rem auto 2.2rem;
+  margin: 0.65rem auto 1.25rem;
 }
 
 .btn-outline {
@@ -320,6 +327,10 @@ p {
 
   .hero {
     min-height: auto;
+  }
+
+  .hero-logo {
+    max-height: 56svh;
   }
 
   .services-grid,
