@@ -9,21 +9,14 @@ const services = [
 
 const portfolioItems = [
   {
-    title: "Atlas Finance",
-    description: "Corporate website focused on trust, speed, and lead conversion.",
+    title: "Dua Property",
+    description: " Dynamic real estate listing platform with custom search, filtering features, Recommendation system & Admin panel.",
   },
   {
-    title: "Northline Medical",
-    description: "Clean healthcare platform with high accessibility and structured flows.",
+    title: "Kabana De Nature",
+    description: "Website for a luxury eco-resort, featuring immersive design, interactive booking system, and seamless user experience to showcase the resort's unique offerings and drive direct bookings.",
   },
-  {
-    title: "Vertex Real Estate",
-    description: "Luxury property landing suite designed for premium clientele.",
-  },
-  {
-    title: "Nova Logistics",
-    description: "Operations dashboard and public-facing portal with streamlined UX.",
-  },
+  
 ];
 
 const processSteps = ["Discovery", "Strategy", "Execution", "Optimization"];
