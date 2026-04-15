@@ -27,10 +27,12 @@ const portfolioItems = [
   {
     title: "Dua Property",
     description: " Dynamic real estate listing platform with custom search, filtering features, Recommendation system & Admin panel.",
+    link: "https://www.duaproperty.com",
   },
   {
     title: "Kabana De Nature",
     description: "Website for a luxury eco-resort, featuring immersive design, interactive booking system, and seamless user experience to showcase the resort's unique offerings and drive direct bookings.",
+    link: "https://www.kabanadenatureresort.com",
   },
   {
     title: "Sambhav Sehgal",
