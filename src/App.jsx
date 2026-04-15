@@ -9,7 +9,7 @@ const services = [
   {
     number: "02",
     title: "Academic Projects",
-    description: "Clean, structured project builds with polished presentation and reliability.",
+    description: "Affordable, high-quality academic solutions designed for students. Professional work at budget-friendly rates.",
   },
   {
     number: "03",
@@ -31,6 +31,11 @@ const portfolioItems = [
   {
     title: "Kabana De Nature",
     description: "Website for a luxury eco-resort, featuring immersive design, interactive booking system, and seamless user experience to showcase the resort's unique offerings and drive direct bookings.",
+  },
+  {
+    title: "Sambhav Sehgal",
+    description: "Personal portfolio showcasing full-stack web development expertise, design philosophy, and premium projects built for high-performing brands.",
+    link: "https://www.sambhavsehgal.tech",
   },
   
 ];
@@ -110,7 +115,6 @@ function App() {
           </a>
           <nav className="nav-links" aria-label="Primary navigation">
             <a href="#services">Services</a>
-            <a href="#about">About</a>
             <a href="#portfolio">Portfolio</a>
             <a href="#process">Process</a>
             <a href="#contact">Contact</a>
@@ -151,26 +155,26 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad" id="about" aria-labelledby="about-title">
-          <div className="container narrow">
-            <h2 id="about-title">About</h2>
-            <p>
-              Viltrumate Technologies creates modern digital solutions for ambitious businesses.
-              We combine strategic thinking, precise engineering, and premium execution to deliver
-              websites that are fast, scalable, and built to perform in real-world markets.
-            </p>
-          </div>
-        </section>
-
         <section className="section-pad" id="portfolio" aria-labelledby="portfolio-title">
-          <div className="container">
-            <h2 id="portfolio-title">Portfolio</h2>
+          <div className="container portfolio-container">
+            <header className="portfolio-header">
+              <h2 id="portfolio-title">Portfolio</h2>
+              <p>Selected projects crafted for performance, clarity, and conversion.</p>
+            </header>
             <div className="portfolio-grid">
               {portfolioItems.map((item) => (
-                <article className="portfolio-card" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
+                <a
+                  href={item.link || "#"}
+                  className={`portfolio-card ${item.link ? "has-link" : ""}`}
+                  key={item.title}
+                  target={item.link ? "_blank" : "_self"}
+                  rel={item.link ? "noopener noreferrer" : ""}
+                >
+                  <article>
+                    <h3 className="portfolio-card-title">{item.title}</h3>
+                    <p className="portfolio-card-copy">{item.description}</p>
+                  </article>
+                </a>
               ))}
             </div>
           </div>
