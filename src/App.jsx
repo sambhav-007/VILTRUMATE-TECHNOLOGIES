@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const services = [
-  "Static Sites",
-  "Academic Projects",
-  "Dynamic CMS Sites",
-  "SEO & Analytics",
+  {
+    number: "01",
+    title: "Static Sites",
+    description: "Fast, minimal websites built for clarity, speed, and direct impact.",
+  },
+  {
+    number: "02",
+    title: "Academic Projects",
+    description: "Clean, structured project builds with polished presentation and reliability.",
+  },
+  {
+    number: "03",
+    title: "Dynamic CMS Sites",
+    description: "Flexible content-driven systems that stay easy to manage and scale.",
+  },
+  {
+    number: "04",
+    title: "SEO & Analytics",
+    description: "Search-ready builds with tracking, visibility, and measurable performance.",
+  },
 ];
 
 const portfolioItems = [
@@ -19,9 +35,72 @@ const portfolioItems = [
   
 ];
 
-const processSteps = ["Discovery", "Strategy", "Execution", "Optimization"];
+const processSteps = [
+  {
+    number: "01",
+    title: "Analysis",
+    description:
+      "We analyze your business goals and target audience to create a strategic foundation.",
+  },
+  {
+    number: "02",
+    title: "Design",
+    description:
+      "Crafting pixel-perfect designs that align with your brand and user expectations.",
+  },
+  {
+    number: "03",
+    title: "Development",
+    description:
+      "Building robust, scalable solutions using cutting-edge technologies.",
+  },
+  {
+    number: "04",
+    title: "Launch",
+    description:
+      "Deploying your project with ongoing support and performance monitoring.",
+  },
+];
 
 function App() {
+  const [activeStepCount, setActiveStepCount] = useState(0);
+  const processStepRefs = useRef([]);
+
+  const progressPercent = useMemo(() => {
+    if (processSteps.length === 0) {
+      return 0;
+    }
+    return Math.min(100, (activeStepCount / processSteps.length) * 100);
+  }, [activeStepCount]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+          const stepIndex = Number(entry.target.getAttribute("data-step-index"));
+          setActiveStepCount((current) => Math.max(current, stepIndex + 1));
+        });
+      },
+      {
+        threshold: 0.55,
+        rootMargin: "0px 0px -10% 0px",
+      }
+    );
+
+    processStepRefs.current.forEach((step) => {
+      if (step) {
+        observer.observe(step);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
     <>
       <header className="site-header" id="top">
@@ -54,13 +133,18 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad" id="services" aria-labelledby="services-title">
-          <div className="container">
-            <h2 id="services-title">Services</h2>
-            <div className="services-grid">
+        <section className="section-pad services-section" id="services" aria-labelledby="services-title">
+          <div className="container services-container">
+            <header className="services-header">
+              <h2 id="services-title">Services</h2>
+              <p>Focused digital work designed to feel precise, premium, and effective.</p>
+            </header>
+
+            <div className="services-grid" role="list" aria-label="Service offerings">
               {services.map((service) => (
-                <article className="simple-card" key={service}>
-                  <h3>{service}</h3>
+                <article className="service-card" key={service.number} role="listitem">
+                  <h3 className="service-card-title">{service.title}</h3>
+                  <p className="service-card-copy">{service.description}</p>
                 </article>
               ))}
             </div>
@@ -92,17 +176,34 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad" id="process" aria-labelledby="process-title">
-          <div className="container">
-            <h2 id="process-title">Process</h2>
-            <ol className="process-line">
+        <section className="section-pad process-section" id="process" aria-labelledby="process-title">
+          <div className="container process-container">
+            <header className="process-header">
+              <h2 id="process-title">Process</h2>
+              <p>Our systematic approach to delivering excellence</p>
+            </header>
+
+            <div className="process-timeline" role="list" aria-label="Process steps">
+              <div className="timeline-rail" aria-hidden="true">
+                <span className="timeline-progress" style={{ height: `${progressPercent}%` }} />
+              </div>
+
               {processSteps.map((step, index) => (
-                <li key={step}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <p>{step}</p>
-                </li>
+                <article
+                  className={`process-item ${index < activeStepCount ? "active" : ""}`}
+                  data-step-index={index}
+                  key={step.number}
+                  ref={(node) => {
+                    processStepRefs.current[index] = node;
+                  }}
+                  role="listitem"
+                >
+                  <span className="process-number">{step.number}</span>
+                  <h3 className="process-card-title">{step.title}</h3>
+                  <p className="process-card-copy">{step.description}</p>
+                </article>
               ))}
-            </ol>
+            </div>
           </div>
         </section>
 
