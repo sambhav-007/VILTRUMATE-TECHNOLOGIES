@@ -2,9 +2,9 @@ import React from "react";
 
 const services = [
   "Static Sites",
-  "CMS Admin Panels",
+  "Academic Projects",
+  "Dynamic CMS Sites",
   "SEO & Analytics",
-  "Branding & Design",
 ];
 
 const portfolioItems = [
