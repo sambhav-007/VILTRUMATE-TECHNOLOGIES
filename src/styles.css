@@ -310,6 +310,208 @@ p {
   line-height: 1.55;
 }
 
+.pricing-section {
+  padding-top: clamp(4.8rem, 9vw, 8rem);
+  padding-bottom: clamp(4.8rem, 9vw, 8rem);
+}
+
+.pricing-container {
+  max-width: 1240px;
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: clamp(2.6rem, 5vw, 4.4rem);
+}
+
+.pricing-header h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.pricing-header p {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: clamp(0.98rem, 1.45vw, 1.08rem);
+  letter-spacing: 0;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pricing-card {
+  position: relative;
+  min-height: 100%;
+  padding: clamp(1.8rem, 3vw, 2.6rem);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.01);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 240ms ease, border-color 240ms ease, background 240ms ease, opacity 240ms ease;
+}
+
+.pricing-card.blue {
+  border-color: rgba(74, 144, 226, 0.55);
+}
+
+.pricing-card.green {
+  border-color: rgba(68, 201, 155, 0.55);
+}
+
+.pricing-card.red {
+  border-color: rgba(232, 84, 84, 0.55);
+}
+
+.pricing-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.pricing-card.blue:hover {
+  border-color: rgba(74, 144, 226, 0.95);
+}
+
+.pricing-card.green:hover {
+  border-color: rgba(68, 201, 155, 0.95);
+}
+
+.pricing-card.red:hover {
+  border-color: rgba(232, 84, 84, 0.95);
+}
+
+.pricing-card.featured {
+  transform: scale(1.03);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.pricing-card.featured.green {
+  border-color: rgba(68, 201, 155, 0.95);
+}
+
+.pricing-card.featured:hover {
+  transform: scale(1.03) translateY(-3px);
+}
+
+.pricing-badges {
+  min-height: 1.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pricing-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.pricing-card-title {
+  font-size: clamp(1.3rem, 1.8vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.pricing-price {
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.pricing-copy {
+  color: rgba(255, 255, 255, 0.64);
+  font-size: clamp(0.95rem, 1.2vw, 1.03rem);
+  line-height: 1.6;
+}
+
+.pricing-features {
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+}
+
+.pricing-features li {
+  position: relative;
+  padding-left: 1rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.pricing-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.pricing-cta {
+  margin-top: auto;
+  width: 100%;
+}
+
+.faq-wrap {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.faq-title {
+  margin-bottom: 1.2rem;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.faq-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.faq-item {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem 1.1rem;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item p {
+  margin-top: 0.85rem;
+  color: rgba(255, 255, 255, 0.66);
+  max-width: 68ch;
+}
+
 .process-line {
   list-style: none;
   display: grid;
@@ -506,6 +708,10 @@ p {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
   .services-grid,
   .process-grid {
     grid-template-columns: 1fr;
@@ -515,6 +721,10 @@ p {
   .process-card,
   .process-item {
     min-height: 220px;
+  }
+
+  .pricing-card.featured {
+    transform: scale(1);
   }
 
   .portfolio-grid {
@@ -562,6 +772,10 @@ p {
     grid-template-columns: 1fr;
   }
 
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
   .service-card,
   .process-card,
   .process-item,
@@ -606,5 +820,13 @@ p {
 
   .service-card {
     min-height: 200px;
+  }
+
+  .pricing-card {
+    padding: 1.35rem;
+  }
+
+  .pricing-card.featured {
+    transform: scale(1);
   }
 }

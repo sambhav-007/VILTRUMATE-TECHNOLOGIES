@@ -40,6 +40,93 @@ const portfolioItems = [
   
 ];
 
+const pricingPlans = [
+  {
+    title: "Dynamic Landing Site",
+    price: "₹3,999",
+    description:
+      "A high-performance, professionally built landing page — fully designed and delivered, ready to launch. No complexity, no maintenance required.",
+    features: [
+      "Fully responsive across all devices",
+      "One-time developed landing page",
+      "Unlimited bandwidth & hosting-ready structure",
+      "WhatsApp chat integration",
+      "Conversion-focused inquiry form",
+      "Clean, modern UI design",
+      "Social media integration",
+      "Basic SEO setup",
+      "24/7 support",
+    ],
+    cta: "Get Started",
+    accent: "blue",
+  },
+  {
+    title: "Business Website",
+    price: "₹6,999",
+    description:
+      "A complete business website with essential admin controls — manage and update your content anytime with ease.",
+    features: [
+      "Fully responsive design",
+      "WhatsApp integration",
+      "Inquiry forms",
+      "SEO-ready structure",
+      "Modern UI",
+      "Multi-page website (3–5 pages)",
+      "Basic admin panel (edit text/images)",
+      "Service & content sections",
+      "Image gallery",
+      "Google Maps integration",
+      "Faster performance optimization",
+      "Improved UX for higher engagement",
+    ],
+    cta: "Get Started",
+    badges: ["Most Popular", "Best Value"],
+    featured: true,
+    accent: "green",
+  },
+  {
+    title: "Premium / Custom Solution",
+    price: "₹13,999+",
+    description:
+      "A fully dynamic, scalable system with advanced admin capabilities — built for businesses that need complete control, flexibility, and custom features.",
+    features: [
+      "Multi-page structure",
+      "Admin panel",
+      "Performance optimization",
+      "SEO-ready setup",
+      "Fully custom UI/UX design",
+      "Advanced admin panel (dynamic control)",
+      "Database integration (MongoDB)",
+      "Dynamic content management",
+      "API integrations (payments, third-party tools)",
+      "Advanced scalability setup",
+      "Priority support",
+      "Custom feature development",
+    ],
+    cta: "Contact Us",
+    badges: ["For Serious Businesses"],
+    accent: "red",
+  },
+];
+
+const faqs = [
+  {
+    question: "How long does it take?",
+    answer:
+      "Most landing sites are delivered quickly, while business and custom builds depend on scope, content readiness, and feature complexity.",
+  },
+  {
+    question: "Do you provide support?",
+    answer:
+      "Yes. Every project includes support, with higher plans offering more hands-on guidance and priority assistance.",
+  },
+  {
+    question: "Can I upgrade later?",
+    answer:
+      "Yes. You can start with a smaller plan and upgrade when your business needs more pages, admin control, or custom functionality.",
+  },
+];
+
 const processSteps = [
   {
     number: "01",
@@ -116,6 +203,7 @@ function App() {
           <nav className="nav-links" aria-label="Primary navigation">
             <a href="#services">Services</a>
             <a href="#portfolio">Portfolio</a>
+            <a href="#pricing">Pricing</a>
             <a href="#process">Process</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -176,6 +264,62 @@ function App() {
                   </article>
                 </a>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-pad pricing-section" id="pricing" aria-labelledby="pricing-title">
+          <div className="container pricing-container">
+            <header className="pricing-header">
+              <h2 id="pricing-title">Pricing</h2>
+              <p>From simple presence to full control — choose what fits your growth.</p>
+            </header>
+
+            <div className="pricing-grid" role="list" aria-label="Pricing plans">
+              {pricingPlans.map((plan) => (
+                <article
+                  className={`pricing-card ${plan.featured ? "featured" : ""} ${plan.accent}`}
+                  key={plan.title}
+                  role="listitem"
+                >
+                  <div className="pricing-badges">
+                    {plan.badges?.map((badge) => (
+                      <span className="pricing-badge" key={badge}>
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h3 className="pricing-card-title">{plan.title}</h3>
+                  <div className="pricing-price">{plan.price}</div>
+                  <p className="pricing-copy">{plan.description}</p>
+
+                  <ul className="pricing-features">
+                    {plan.features.map((feature) => (
+                      <li key={feature}>{feature}</li>
+                    ))}
+                  </ul>
+
+                  <a
+                    className="btn-outline pricing-cta"
+                    href={plan.cta === "Contact Us" ? "mailto:hello@viltrumate.com" : "#contact"}
+                  >
+                    {plan.cta}
+                  </a>
+                </article>
+              ))}
+            </div>
+
+            <div className="faq-wrap">
+              <h3 className="faq-title">FAQ</h3>
+              <div className="faq-list">
+                {faqs.map((faq) => (
+                  <details className="faq-item" key={faq.question}>
+                    <summary>{faq.question}</summary>
+                    <p>{faq.answer}</p>
+                  </details>
+                ))}
+              </div>
             </div>
           </div>
         </section>
