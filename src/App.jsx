@@ -205,8 +205,8 @@ function App() {
           <nav className="nav-links" aria-label="Primary navigation">
             <a href="#services">Services</a>
             <a href="#portfolio">Portfolio</a>
-            <a href="#pricing">Pricing</a>
             <a href="#process">Process</a>
+            <a href="#pricing">Pricing</a>
             <a href="#contact">Contact</a>
           </nav>
         </div>
@@ -214,16 +214,38 @@ function App() {
 
       <main>
         <section className="hero section-pad" aria-label="Viltrumate Technologies hero">
-          <div className="container hero-inner">
-            <img
-              className="hero-logo"
-              src="/viltrumate-logo.png"
-              alt="Viltrumate Technologies logo"
-            />
-            <p>We build high-performance websites that drive results.</p>
-            <a className="btn-outline" href="#contact">
-              Get Started
-            </a>
+          <div className="container hero-inner hero-split">
+            <div className="hero-copy">
+              <p className="hero-kicker">Viltrumate Technologies</p>
+              <h1>Digital Presense your brand deserves.</h1>
+              <p className="hero-description">
+                We design and build fast, high-performance web experiences for serious businesses.
+              </p>
+              <div className="hero-actions">
+                <a className="btn-outline" href="#contact">
+                  Get Started
+                </a>
+                <a className="btn-ghost" href="#portfolio">
+                  View Portfolio
+                </a>
+              </div>
+              <div className="hero-trust" aria-label="Key benefits">
+                <span>Premium quality</span>
+                <span>Fast delivery</span>
+                <span>Ongoing support</span>
+              </div>
+            </div>
+
+            <div className="hero-visual" aria-hidden="true">
+              <div className="hero-visual-frame">
+                <img src="/image.png" alt="" className="hero-background-image" />
+                <img
+                  className="hero-logo"
+                  src="/viltrumate-logo.png"
+                  alt="Viltrumate Technologies logo"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -265,6 +287,37 @@ function App() {
                     <p className="portfolio-card-copy">{item.description}</p>
                   </article>
                 </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-pad process-section" id="process" aria-labelledby="process-title">
+          <div className="container process-container">
+            <header className="process-header">
+              <h2 id="process-title">Process</h2>
+              <p>Our systematic approach to delivering excellence</p>
+            </header>
+
+            <div className="process-timeline" role="list" aria-label="Process steps">
+              <div className="timeline-rail" aria-hidden="true">
+                <span className="timeline-progress" style={{ height: `${progressPercent}%` }} />
+              </div>
+
+              {processSteps.map((step, index) => (
+                <article
+                  className={`process-item ${index < activeStepCount ? "active" : ""}`}
+                  data-step-index={index}
+                  key={step.number}
+                  ref={(node) => {
+                    processStepRefs.current[index] = node;
+                  }}
+                  role="listitem"
+                >
+                  <span className="process-number">{step.number}</span>
+                  <h3 className="process-card-title">{step.title}</h3>
+                  <p className="process-card-copy">{step.description}</p>
+                </article>
               ))}
             </div>
           </div>
@@ -322,37 +375,6 @@ function App() {
                   </details>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section-pad process-section" id="process" aria-labelledby="process-title">
-          <div className="container process-container">
-            <header className="process-header">
-              <h2 id="process-title">Process</h2>
-              <p>Our systematic approach to delivering excellence</p>
-            </header>
-
-            <div className="process-timeline" role="list" aria-label="Process steps">
-              <div className="timeline-rail" aria-hidden="true">
-                <span className="timeline-progress" style={{ height: `${progressPercent}%` }} />
-              </div>
-
-              {processSteps.map((step, index) => (
-                <article
-                  className={`process-item ${index < activeStepCount ? "active" : ""}`}
-                  data-step-index={index}
-                  key={step.number}
-                  ref={(node) => {
-                    processStepRefs.current[index] = node;
-                  }}
-                  role="listitem"
-                >
-                  <span className="process-number">{step.number}</span>
-                  <h3 className="process-card-title">{step.title}</h3>
-                  <p className="process-card-copy">{step.description}</p>
-                </article>
-              ))}
             </div>
           </div>
         </section>
