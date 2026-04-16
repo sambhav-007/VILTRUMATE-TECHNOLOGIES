@@ -157,6 +157,8 @@ const processSteps = [
 ];
 
 function App() {
+  const finalHeroTitle = "Digital Presence your brand deserves.";
+  const [displayHeroTitle, setDisplayHeroTitle] = useState(finalHeroTitle);
   const [activeStepCount, setActiveStepCount] = useState(0);
   const processStepRefs = useRef([]);
 
@@ -166,6 +168,52 @@ function App() {
     }
     return Math.min(100, (activeStepCount / processSteps.length) * 100);
   }, [activeStepCount]);
+
+  useEffect(() => {
+    const randomChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let frame = 0;
+    const totalFrames = 34;
+    let timeoutId;
+
+    const tick = () => {
+      frame += 1;
+      const progress = frame / totalFrames;
+      const easedProgress =
+        progress < 0.5
+          ? Math.pow(progress * 2, 1.55) * 0.44
+          : 0.44 + Math.pow((progress - 0.5) * 2, 0.72) * 0.56;
+      const revealCount = Math.floor(easedProgress * finalHeroTitle.length);
+
+      const scrambled = finalHeroTitle
+        .split("")
+        .map((char, index) => {
+          if (char === " ") {
+            return " ";
+          }
+          if (index < revealCount || /[.,!?'-]/.test(char)) {
+            return finalHeroTitle[index];
+          }
+          return randomChars[Math.floor(Math.random() * randomChars.length)];
+        })
+        .join("");
+
+      setDisplayHeroTitle(scrambled);
+
+      if (frame >= totalFrames) {
+        setDisplayHeroTitle(finalHeroTitle);
+        return;
+      }
+
+      const delay = frame < 10 ? 84 : frame < 22 ? 52 : 24;
+      timeoutId = window.setTimeout(tick, delay);
+    };
+
+    timeoutId = window.setTimeout(tick, 220);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [finalHeroTitle]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -200,7 +248,7 @@ function App() {
       <header className="site-header" id="top">
         <div className="container nav-wrap">
           <a className="brand-mark" href="#top" aria-label="Go to top">
-            <img src="/v-logo.png" alt="Viltrumate icon" />
+            <img src="/viltrumate-logo.png" alt="Viltrumate Technologies" />
           </a>
           <nav className="nav-links" aria-label="Primary navigation">
             <a href="#services">Services</a>
@@ -214,10 +262,10 @@ function App() {
 
       <main>
         <section className="hero section-pad" aria-label="Viltrumate Technologies hero">
-          <div className="container hero-inner hero-split">
+          <div className="container hero-inner">
             <div className="hero-copy">
               <p className="hero-kicker">Viltrumate Technologies</p>
-              <h1>Digital Presense your brand deserves.</h1>
+              <h1 aria-label={finalHeroTitle}>{displayHeroTitle}</h1>
               <p className="hero-description">
                 We design and build fast, high-performance web experiences for serious businesses.
               </p>
@@ -233,17 +281,6 @@ function App() {
                 <span>Premium quality</span>
                 <span>Fast delivery</span>
                 <span>Ongoing support</span>
-              </div>
-            </div>
-
-            <div className="hero-visual" aria-hidden="true">
-              <div className="hero-visual-frame">
-                <img src="/image.png" alt="" className="hero-background-image" />
-                <img
-                  className="hero-logo"
-                  src="/viltrumate-logo.png"
-                  alt="Viltrumate Technologies logo"
-                />
               </div>
             </div>
           </div>

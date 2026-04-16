@@ -77,7 +77,7 @@ p {
 }
 
 .nav-wrap {
-  min-height: 4.3rem;
+  min-height: 6.4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,8 +86,9 @@ p {
 
 .brand-mark {
   display: inline-flex;
-  width: 2rem;
-  height: 2rem;
+  align-items: center;
+  width: clamp(18rem, 30vw, 24rem);
+  height: 4.5rem;
   opacity: 0.95;
   transition: opacity 180ms ease;
 }
@@ -121,29 +122,48 @@ p {
 }
 
 .hero {
+  position: relative;
   border-top: 0;
   min-height: calc(100svh - 4.3rem);
   padding: clamp(1.2rem, 3.5vh, 2.2rem) 0;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/image.png") center / cover no-repeat;
+  opacity: 0.55;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.68) 46%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
 }
 
 .hero .container {
+  position: relative;
+  z-index: 1;
   width: min(94%, 1320px);
 }
 
 .hero-inner {
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - 7rem);
   max-width: none;
 }
 
-.hero-split {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-  align-items: center;
-  gap: clamp(1.8rem, 5vw, 4.5rem);
-  min-height: calc(100svh - 7rem);
-}
-
 .hero-copy {
-  max-width: 42rem;
+  max-width: 48rem;
 }
 
 .hero-kicker {
@@ -224,39 +244,6 @@ p {
   height: 0.8rem;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.18);
-}
-
-.hero-visual {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-visual-frame {
-  position: relative;
-  width: min(100%, 520px);
-  aspect-ratio: 4 / 5;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  background: #000;
-}
-
-.hero-background-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.42;
-}
-
-.hero-visual-frame .hero-logo {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  width: min(82%, 380px);
-  max-height: none;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  z-index: 1;
 }
 
 .hero p {
@@ -868,27 +855,24 @@ p {
     min-height: auto;
   }
 
-  .hero-split {
-    grid-template-columns: 1fr;
+  .hero::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+  }
+
+  .hero-inner {
     min-height: auto;
   }
 
   .hero-copy {
     max-width: none;
-    order: 2;
-  }
-
-  .hero-visual {
-    order: 1;
   }
 
   .hero-copy h1 {
     max-width: 12ch;
-  }
-
-  .hero-visual-frame {
-    width: min(100%, 100%);
-    aspect-ratio: 16 / 12;
   }
 
   .services-grid,
