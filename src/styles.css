@@ -68,6 +68,100 @@ p {
   font-size: clamp(0.95rem, 1.45vw, 1.05rem);
 }
 
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 700ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: transform, opacity, filter;
+}
+
+[data-reveal][data-reveal-variant="drift-left"] {
+  transform: translate3d(-34px, 18px, 0) scale(0.988);
+}
+
+[data-reveal][data-reveal-variant="drift-right"] {
+  transform: translate3d(34px, 18px, 0) scale(0.988);
+}
+
+[data-reveal][data-reveal-variant="drift-up"] {
+  transform: translate3d(0, 34px, 0) scale(0.98);
+}
+
+[data-reveal][data-reveal-variant="depth"] {
+  transform: translate3d(0, 22px, 0) perspective(900px) rotateX(8deg) scale(0.98);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+[data-reveal][data-reveal-variant="drift-left"].is-visible,
+[data-reveal][data-reveal-variant="drift-right"].is-visible,
+[data-reveal][data-reveal-variant="drift-up"].is-visible,
+[data-reveal][data-reveal-variant="depth"].is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+[data-reveal][data-reveal-variant="depth"].is-visible {
+  filter: blur(0);
+}
+
+[data-reveal].hero-ambient {
+  transform: translate3d(0, 18px, 0) scale(0.99);
+}
+
+[data-reveal].hero-ambient.is-visible {
+  transform: translate3d(var(--parallax-x), var(--parallax-y), 0) scale(1);
+}
+
+.process-section [data-reveal] {
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal],
+  [data-reveal].is-visible,
+  [data-reveal][data-reveal-variant],
+  .hero-ambient,
+  .hero-ambient::before,
+  .hero-ambient-grid,
+  .hero-ambient-lines,
+  .hero-ambient-glow,
+  .hero-ambient-shimmer,
+  .hero-particles span,
+  .hero-float-card {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
+
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 0.65rem;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
 .contact-section {
   padding-top: clamp(4.8rem, 9vw, 8rem);
   padding-bottom: clamp(4.8rem, 9vw, 8rem);
@@ -93,6 +187,26 @@ p {
   font-size: clamp(0.98rem, 1.4vw, 1.08rem);
 }
 
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.05rem;
+}
+
+.hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  padding: 0 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -111,9 +225,9 @@ p {
 }
 
 .contact-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.24);
-  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .contact-label {
@@ -519,12 +633,12 @@ p {
 }
 
 .hero-description {
-  max-width: 34ch;
+  max-width: 31ch;
   margin-top: 1.4rem;
   margin-left: 0;
   margin-right: 0;
-  font-size: clamp(1rem, 1.7vw, 1.18rem);
-  color: rgba(255, 255, 255, 0.68);
+  font-size: clamp(1.02rem, 1.7vw, 1.16rem);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .hero-actions {
@@ -582,6 +696,11 @@ p {
   height: 0.8rem;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.18);
+}
+
+.hero-kicker,
+.section-kicker {
+  user-select: none;
 }
 
 @keyframes heroBgDrift {
@@ -710,6 +829,15 @@ p {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.services-header p,
+.portfolio-header p,
+.pricing-header p,
+.process-header p,
+.contact-header p {
+  max-width: 42ch;
+  margin-inline: auto;
+}
+
 .service-card {
   min-height: 250px;
   padding: clamp(1.8rem, 3vw, 3rem) clamp(1.6rem, 3vw, 2.8rem);
@@ -719,6 +847,14 @@ p {
   flex-direction: column;
   gap: 1.15rem;
   justify-content: flex-start;
+  background: rgba(255, 255, 255, 0.008);
+  transition: background 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+
+.service-card:hover {
+  background: rgba(255, 255, 255, 0.018);
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-2px);
 }
 
 .service-card-title {
@@ -774,6 +910,12 @@ p {
   gap: 1.15rem;
   justify-content: flex-start;
   text-decoration: none;
+  background: rgba(255, 255, 255, 0.008);
+}
+
+.portfolio-card article {
+  display: grid;
+  align-content: start;
 }
 
 .portfolio-card.has-link {
@@ -781,10 +923,30 @@ p {
   transition: opacity 280ms ease, border-color 280ms ease, background 280ms ease;
 }
 
+.portfolio-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.portfolio-card-index,
+.portfolio-card-link {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.54);
+}
+
+.portfolio-card-link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .portfolio-card.has-link:hover {
   opacity: 0.88;
   border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.022);
 }
 
 .portfolio-card-title {
@@ -796,7 +958,7 @@ p {
 }
 
 .portfolio-card-copy {
-  max-width: 30ch;
+  max-width: 32ch;
   color: rgba(255, 255, 255, 0.62);
   font-size: clamp(1rem, 1.25vw, 1.08rem);
   line-height: 1.55;
@@ -879,8 +1041,8 @@ p {
 
 .pricing-card.featured {
   transform: scale(1.03);
-  border-color: rgba(255, 255, 255, 0.28);
-  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.36);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .pricing-card.featured.green {
@@ -1213,6 +1375,10 @@ p {
   border-color: rgba(255, 255, 255, 0.52);
 }
 
+.footer-brand-block {
+  max-width: 28rem;
+}
+
 .footer-copy {
   grid-column: 1 / -1;
   font-size: 0.76rem;
@@ -1267,6 +1433,14 @@ p {
 
   .portfolio-grid {
     grid-template-columns: 1fr;
+  }
+
+  .portfolio-card-top {
+    margin-bottom: 0.7rem;
+  }
+
+  .section-kicker {
+    margin-bottom: 0.55rem;
   }
 
   .process-line li {
@@ -1366,6 +1540,20 @@ p {
     max-width: 12ch;
   }
 
+  .hero-description {
+    max-width: 100%;
+  }
+
+  .hero-meta {
+    gap: 0.45rem;
+  }
+
+  .hero-meta span {
+    min-height: 1.75rem;
+    padding: 0 0.62rem;
+    letter-spacing: 0.14em;
+  }
+
   .services-grid,
   .process-grid,
   .process-line {
@@ -1430,8 +1618,16 @@ p {
     transform: scale(1);
   }
 
+  .pricing-card {
+    padding: 1.3rem;
+  }
+
   .contact-card {
     min-height: auto;
+  }
+
+  .contact-card strong {
+    font-size: 1.02rem;
   }
 
   .contact-cta-row p {

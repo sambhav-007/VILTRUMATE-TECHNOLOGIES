@@ -9,12 +9,12 @@ const services = [
   {
     number: "02",
     title: "Academic Projects",
-    description: "Affordable, high-quality academic solutions designed for students. Professional work at budget-friendly rates.",
+    description: "Clean academic work delivered with solid design, structure, and reliable execution.",
   },
   {
     number: "03",
     title: "Dynamic CMS Sites",
-    description: "Flexible content-driven systems that stay easy to manage and scale.",
+    description: "Flexible content systems that stay easy to manage, update, and scale.",
   },
   {
     number: "04",
@@ -26,17 +26,17 @@ const services = [
 const portfolioItems = [
   {
     title: "Dua Property",
-    description: " Dynamic real estate listing platform with custom search, filtering features, Recommendation system & Admin panel.",
+    description: "Real estate platform with custom search, filtering, recommendations, and an admin panel.",
     link: "https://www.duaproperty.com",
   },
   {
     title: "Kabana De Nature",
-    description: "Website for a luxury eco-resort, featuring immersive design, interactive booking system, and seamless user experience to showcase the resort's unique offerings and drive direct bookings.",
+    description: "Luxury eco-resort website with immersive design, booking flow, and direct conversion focus.",
     link: "https://www.kabanadenatureresort.com",
   },
   {
     title: "Sambhav Sehgal",
-    description: "Personal portfolio showcasing full-stack web development expertise, design philosophy, and premium projects built for high-performing brands.",
+    description: "Personal portfolio built to showcase full-stack skill, design taste, and premium project work.",
     link: "https://www.sambhavsehgal.tech",
   },
   
@@ -47,7 +47,7 @@ const pricingPlans = [
     title: "Dynamic Landing Site",
     price: "₹3,999",
     description:
-      "A high-performance, professionally built landing page — fully designed and delivered, ready to launch. No complexity, no maintenance required.",
+      "A high-performance landing page designed to launch fast and look sharp from day one.",
     features: [
       "Fully responsive across all devices",
       "One-time developed landing page",
@@ -66,7 +66,7 @@ const pricingPlans = [
     title: "Business Website",
     price: "₹6,999",
     description:
-      "A complete business website with essential admin controls — manage and update your content anytime with ease.",
+      "A complete business website with essential admin control and a more flexible content structure.",
     features: [
       "Fully responsive design",
       "WhatsApp integration",
@@ -90,7 +90,7 @@ const pricingPlans = [
     title: "Premium / Custom Solution",
     price: "₹13,999+",
     description:
-      "A fully dynamic, scalable system with advanced admin capabilities — built for businesses that need complete control, flexibility, and custom features.",
+      "A fully dynamic, scalable system with advanced controls for custom business needs.",
     features: [
       "Multi-page structure",
       "Admin panel",
@@ -115,7 +115,7 @@ const faqs = [
   {
     question: "How long does it take?",
     answer:
-      "Most landing sites are delivered quickly, while business and custom builds depend on scope, content readiness, and feature complexity.",
+      "Most landing sites are delivered quickly, while larger builds depend on scope, content readiness, and feature complexity.",
   },
   {
     question: "Do you provide support?",
@@ -125,7 +125,7 @@ const faqs = [
   {
     question: "Can I upgrade later?",
     answer:
-      "Yes. You can start with a smaller plan and upgrade when your business needs more pages, admin control, or custom functionality.",
+      "Yes. You can start small and upgrade later when you need more pages, control, or custom functionality.",
   },
 ];
 
@@ -134,25 +134,25 @@ const processSteps = [
     number: "01",
     title: "Analysis",
     description:
-      "We analyze your business goals and target audience to create a strategic foundation.",
+      "We map your goals, audience, and priorities before any design decisions begin.",
   },
   {
     number: "02",
     title: "Design",
     description:
-      "Crafting pixel-perfect designs that align with your brand and user expectations.",
+      "We shape a clean visual direction that fits the brand and the user flow.",
   },
   {
     number: "03",
     title: "Development",
     description:
-      "Building robust, scalable solutions using cutting-edge technologies.",
+      "We build the site with performance, structure, and stability in mind.",
   },
   {
     number: "04",
     title: "Launch",
     description:
-      "Deploying your project with ongoing support and performance monitoring.",
+      "We launch cleanly and stay available for support after delivery.",
   },
 ];
 
@@ -295,6 +295,41 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const revealTargets = Array.from(document.querySelectorAll("[data-reveal]"));
+
+    if (revealTargets.length === 0) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-visible");
+          currentObserver.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.14,
+        rootMargin: "0px 0px -8% 0px",
+      }
+    );
+
+    revealTargets.forEach((target) => {
+      const delay = target.getAttribute("data-reveal-delay") || "0";
+      target.style.setProperty("--reveal-delay", `${delay}ms`);
+      observer.observe(target);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 700) {
         setIsMobileMenuOpen(false);
@@ -349,8 +384,13 @@ function App() {
       <main>
         <section className="hero section-pad" aria-label="Viltrumate Technologies hero">
           <div className="container hero-inner">
-            <div className="hero-copy">
+            <div className="hero-copy" data-reveal data-reveal-variant="drift-left" data-reveal-delay="0">
               <p className="hero-kicker">Viltrumate Technologies</p>
+              <div className="hero-meta" aria-label="Core strengths">
+                <span>Academic Projects</span>
+                <span>Web development</span>
+                <span>SEO-ready builds</span>
+              </div>
               <h1
                 className={isScrambling ? "hero-title scrambling" : "hero-title"}
                 aria-label={finalHeroTitleAria}
@@ -361,7 +401,7 @@ function App() {
                 </span>
               </h1>
               <p className="hero-description">
-                We design and build fast, high-performance web experiences for serious businesses.
+                We design and build sharp, fast websites that look premium and convert cleanly.
               </p>
               <div className="hero-actions">
                 <a className="btn-outline" href="#contact">
@@ -378,7 +418,7 @@ function App() {
               </div>
             </div>
 
-            <div className="hero-ambient" aria-hidden="true" ref={heroAmbientRef}>
+            <div className="hero-ambient" aria-hidden="true" ref={heroAmbientRef} data-reveal data-reveal-variant="drift-right" data-reveal-delay="160">
               <div className="hero-ambient-grid" />
               <div className="hero-ambient-lines" />
               <div className="hero-ambient-glow" />
@@ -412,14 +452,15 @@ function App() {
 
         <section className="section-pad services-section" id="services" aria-labelledby="services-title">
           <div className="container services-container">
-            <header className="services-header">
+            <header className="services-header" data-reveal data-reveal-variant="depth">
+              <span className="section-kicker">What we do</span>
               <h2 id="services-title">Services</h2>
-              <p>Focused digital work designed to feel precise, premium, and effective.</p>
+              <p>Focused digital work designed to feel precise, premium, and direct.</p>
             </header>
 
-            <div className="services-grid" role="list" aria-label="Service offerings">
+            <div className="services-grid" role="list" aria-label="Service offerings" data-reveal data-reveal-variant="drift-right">
               {services.map((service) => (
-                <article className="service-card" key={service.number} role="listitem">
+                <article className="service-card" key={service.number} role="listitem" data-reveal data-reveal-variant="drift-up" data-reveal-delay={service.number === "01" ? "0" : service.number === "02" ? "80" : service.number === "03" ? "160" : "240"}>
                   <h3 className="service-card-title">{service.title}</h3>
                   <p className="service-card-copy">{service.description}</p>
                 </article>
@@ -430,20 +471,28 @@ function App() {
 
         <section className="section-pad" id="portfolio" aria-labelledby="portfolio-title">
           <div className="container portfolio-container">
-            <header className="portfolio-header">
+            <header className="portfolio-header" data-reveal data-reveal-variant="depth">
+              <span className="section-kicker">Selected work</span>
               <h2 id="portfolio-title">Portfolio</h2>
               <p>Selected projects crafted for performance, clarity, and conversion.</p>
             </header>
-            <div className="portfolio-grid">
-              {portfolioItems.map((item) => (
+            <div className="portfolio-grid" data-reveal data-reveal-variant="drift-right">
+              {portfolioItems.map((item, index) => (
                 <a
                   href={item.link || "#"}
                   className={`portfolio-card ${item.link ? "has-link" : ""}`}
                   key={item.title}
                   target={item.link ? "_blank" : "_self"}
                   rel={item.link ? "noopener noreferrer" : ""}
+                  data-reveal
+                  data-reveal-variant="drift-up"
+                  data-reveal-delay={index * 100}
                 >
                   <article>
+                    <div className="portfolio-card-top">
+                      <span className="portfolio-card-index">0{index + 1}</span>
+                      <span className="portfolio-card-link">View project</span>
+                    </div>
                     <h3 className="portfolio-card-title">{item.title}</h3>
                     <p className="portfolio-card-copy">{item.description}</p>
                   </article>
@@ -455,12 +504,13 @@ function App() {
 
         <section className="section-pad process-section" id="process" aria-labelledby="process-title">
           <div className="container process-container">
-            <header className="process-header">
+            <header className="process-header" data-reveal>
+              <span className="section-kicker">How it works</span>
               <h2 id="process-title">Process</h2>
-              <p>Our systematic approach to delivering excellence</p>
+              <p>A simple flow that keeps the project sharp from start to launch.</p>
             </header>
 
-            <div className="process-timeline" role="list" aria-label="Process steps">
+            <div className="process-timeline" role="list" aria-label="Process steps" data-reveal>
               <div className="timeline-rail" aria-hidden="true">
                 <span className="timeline-progress" style={{ height: `${progressPercent}%` }} />
               </div>
@@ -474,6 +524,8 @@ function App() {
                     processStepRefs.current[index] = node;
                   }}
                   role="listitem"
+                  data-reveal
+                  data-reveal-delay={index * 100}
                 >
                   <span className="process-number">{step.number}</span>
                   <h3 className="process-card-title">{step.title}</h3>
@@ -486,17 +538,21 @@ function App() {
 
         <section className="section-pad pricing-section" id="pricing" aria-labelledby="pricing-title">
           <div className="container pricing-container">
-            <header className="pricing-header">
+            <header className="pricing-header" data-reveal data-reveal-variant="depth">
+              <span className="section-kicker">Packages</span>
               <h2 id="pricing-title">Pricing</h2>
               <p>From simple presence to full control — choose what fits your growth.</p>
             </header>
 
-            <div className="pricing-grid" role="list" aria-label="Pricing plans">
+            <div className="pricing-grid" role="list" aria-label="Pricing plans" data-reveal data-reveal-variant="drift-right">
               {pricingPlans.map((plan) => (
                 <article
                   className={`pricing-card ${plan.featured ? "featured" : ""} ${plan.accent}`}
                   key={plan.title}
                   role="listitem"
+                  data-reveal
+                  data-reveal-variant={plan.featured ? "drift-up" : "drift-left"}
+                  data-reveal-delay={plan.featured ? "120" : "0"}
                 >
                   <div className="pricing-badges">
                     {plan.badges?.map((badge) => (
@@ -526,7 +582,7 @@ function App() {
               ))}
             </div>
 
-            <div className="faq-wrap">
+            <div className="faq-wrap" data-reveal data-reveal-variant="drift-up">
               <h3 className="faq-title">FAQ</h3>
               <div className="faq-list">
                 {faqs.map((faq) => (
@@ -542,18 +598,22 @@ function App() {
 
         <section className="section-pad contact-section" id="contact" aria-labelledby="contact-title">
           <div className="container contact-container">
-            <header className="contact-header">
+            <header className="contact-header" data-reveal data-reveal-variant="depth">
+              <span className="section-kicker">Start here</span>
               <h2 id="contact-title">Let&apos;s build something that stands out.</h2>
-              <p>Choose your preferred channel and we&apos;ll get back with a clear plan.</p>
+              <p>Choose a channel and we&apos;ll respond with a clear next step.</p>
             </header>
 
-            <div className="contact-grid" role="list" aria-label="Contact methods">
+            <div className="contact-grid" role="list" aria-label="Contact methods" data-reveal data-reveal-variant="drift-right">
               <a
                 className="contact-card"
                 href="https://www.instagram.com/viltrumate/"
                 target="_blank"
                 rel="noopener noreferrer"
                 role="listitem"
+                data-reveal
+                data-reveal-variant="drift-up"
+                data-reveal-delay="0"
               >
                 <span className="contact-label">Instagram</span>
                 <strong>@viltrumate</strong>
@@ -566,20 +626,23 @@ function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 role="listitem"
+                data-reveal
+                data-reveal-variant="drift-up"
+                data-reveal-delay="100"
               >
                 <span className="contact-label">LinkedIn</span>
                 <strong>Viltrumate Technologies</strong>
                 <p>Connect for business inquiries, collaborations, and company updates.</p>
               </a>
 
-              <a className="contact-card" href="tel:+917988280245" role="listitem">
+              <a className="contact-card" href="tel:+917988280245" role="listitem" data-reveal data-reveal-variant="drift-up" data-reveal-delay="200">
                 <span className="contact-label">Phone</span>
                 <strong>+91 79882 80245</strong>
                 <p>Call directly for quick discussion, scope, and pricing.</p>
               </a>
             </div>
 
-            <div className="contact-cta-row">
+            <div className="contact-cta-row" data-reveal data-reveal-variant="drift-left">
               <a className="btn-outline" href="mailto:hello@viltrumate.com">
                 Start Your Project
               </a>
@@ -590,13 +653,13 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <div className="container footer-wrap">
-          <div className="footer-brand-block">
+        <div className="container footer-wrap" data-reveal data-reveal-variant="drift-right">
+          <div className="footer-brand-block" data-reveal data-reveal-variant="drift-left" data-reveal-delay="0">
             <p className="footer-brand">Viltrumate Technologies</p>
-            <p className="footer-note">Digital products with premium execution and measurable impact.</p>
+            <p className="footer-note">Ambala-based web studio for premium, fast, SEO-ready builds.</p>
           </div>
 
-          <div className="footer-links" aria-label="Social links">
+          <div className="footer-links" aria-label="Social links" data-reveal data-reveal-variant="drift-up" data-reveal-delay="100">
             <a href="https://www.instagram.com/viltrumate/" target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
