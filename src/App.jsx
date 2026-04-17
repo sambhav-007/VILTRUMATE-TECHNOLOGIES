@@ -157,10 +157,14 @@ const processSteps = [
 ];
 
 function App() {
-  const finalHeroTitle = "Digital Presence your brand deserves.";
+  const finalHeroTitle = "Digital Presence\nyour brand\ndeserves.";
   const [displayHeroTitle, setDisplayHeroTitle] = useState(finalHeroTitle);
+  const finalHeroTitleAria = "Digital Presence your brand deserves.";
+  const [isScrambling, setIsScrambling] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeStepCount, setActiveStepCount] = useState(0);
   const processStepRefs = useRef([]);
+  const heroAmbientRef = useRef(null);
 
   const progressPercent = useMemo(() => {
     if (processSteps.length === 0) {
@@ -170,25 +174,27 @@ function App() {
   }, [activeStepCount]);
 
   useEffect(() => {
-    const randomChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const randomChars = "abcdefghijklmnopqrstuvwxyz";
     let frame = 0;
-    const totalFrames = 34;
+    const totalFrames = 26;
     let timeoutId;
+
+    setIsScrambling(true);
 
     const tick = () => {
       frame += 1;
       const progress = frame / totalFrames;
       const easedProgress =
         progress < 0.5
-          ? Math.pow(progress * 2, 1.55) * 0.44
-          : 0.44 + Math.pow((progress - 0.5) * 2, 0.72) * 0.56;
+          ? Math.pow(progress * 2, 1.25) * 0.4
+          : 0.4 + Math.pow((progress - 0.5) * 2, 0.58) * 0.6;
       const revealCount = Math.floor(easedProgress * finalHeroTitle.length);
 
       const scrambled = finalHeroTitle
         .split("")
         .map((char, index) => {
-          if (char === " ") {
-            return " ";
+          if (char === " " || char === "\n") {
+            return char;
           }
           if (index < revealCount || /[.,!?'-]/.test(char)) {
             return finalHeroTitle[index];
@@ -201,19 +207,64 @@ function App() {
 
       if (frame >= totalFrames) {
         setDisplayHeroTitle(finalHeroTitle);
+        setIsScrambling(false);
         return;
       }
 
-      const delay = frame < 10 ? 84 : frame < 22 ? 52 : 24;
+      const delay = frame < 8 ? 52 : frame < 18 ? 34 : 18;
       timeoutId = window.setTimeout(tick, delay);
     };
 
-    timeoutId = window.setTimeout(tick, 220);
+    timeoutId = window.setTimeout(tick, 140);
 
     return () => {
       window.clearTimeout(timeoutId);
     };
   }, [finalHeroTitle]);
+
+  useEffect(() => {
+    const ambient = heroAmbientRef.current;
+    if (!ambient) {
+      return;
+    }
+
+    let rafId = 0;
+    const target = { x: 0, y: 0 };
+    const current = { x: 0, y: 0 };
+
+    const animate = () => {
+      current.x += (target.x - current.x) * 0.08;
+      current.y += (target.y - current.y) * 0.08;
+      ambient.style.setProperty("--parallax-x", `${current.x.toFixed(2)}px`);
+      ambient.style.setProperty("--parallax-y", `${current.y.toFixed(2)}px`);
+      rafId = window.requestAnimationFrame(animate);
+    };
+
+    const onMove = (event) => {
+      const rect = ambient.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const deltaX = (event.clientX - centerX) / rect.width;
+      const deltaY = (event.clientY - centerY) / rect.height;
+      target.x = Math.max(-8, Math.min(8, deltaX * 14));
+      target.y = Math.max(-8, Math.min(8, deltaY * 14));
+    };
+
+    const onLeave = () => {
+      target.x = 0;
+      target.y = 0;
+    };
+
+    ambient.addEventListener("mousemove", onMove);
+    ambient.addEventListener("mouseleave", onLeave);
+    rafId = window.requestAnimationFrame(animate);
+
+    return () => {
+      ambient.removeEventListener("mousemove", onMove);
+      ambient.removeEventListener("mouseleave", onLeave);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -243,6 +294,23 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 700) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  const handleMobileNavClick = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
       <header className="site-header" id="top">
@@ -250,12 +318,30 @@ function App() {
           <a className="brand-mark" href="#top" aria-label="Go to top">
             <img src="/viltrumate-logo.png" alt="Viltrumate Technologies" />
           </a>
-          <nav className="nav-links" aria-label="Primary navigation">
-            <a href="#services">Services</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#process">Process</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#contact">Contact</a>
+
+          <button
+            className={`menu-toggle ${isMobileMenuOpen ? "open" : ""}`}
+            type="button"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-primary-nav"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+
+          <nav
+            id="mobile-primary-nav"
+            className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}
+            aria-label="Primary navigation"
+          >
+            <a href="#services" onClick={handleMobileNavClick}>Services</a>
+            <a href="#portfolio" onClick={handleMobileNavClick}>Portfolio</a>
+            <a href="#process" onClick={handleMobileNavClick}>Process</a>
+            <a href="#pricing" onClick={handleMobileNavClick}>Pricing</a>
+            <a href="#contact" onClick={handleMobileNavClick}>Contact</a>
           </nav>
         </div>
       </header>
@@ -265,7 +351,15 @@ function App() {
           <div className="container hero-inner">
             <div className="hero-copy">
               <p className="hero-kicker">Viltrumate Technologies</p>
-              <h1 aria-label={finalHeroTitle}>{displayHeroTitle}</h1>
+              <h1
+                className={isScrambling ? "hero-title scrambling" : "hero-title"}
+                aria-label={finalHeroTitleAria}
+              >
+                <span className="hero-title-static">{finalHeroTitle}</span>
+                <span className="hero-title-scramble" aria-hidden="true">
+                  {displayHeroTitle}
+                </span>
+              </h1>
               <p className="hero-description">
                 We design and build fast, high-performance web experiences for serious businesses.
               </p>
@@ -281,6 +375,36 @@ function App() {
                 <span>Premium quality</span>
                 <span>Fast delivery</span>
                 <span>Ongoing support</span>
+              </div>
+            </div>
+
+            <div className="hero-ambient" aria-hidden="true" ref={heroAmbientRef}>
+              <div className="hero-ambient-grid" />
+              <div className="hero-ambient-lines" />
+              <div className="hero-ambient-glow" />
+              <div className="hero-ambient-shimmer" />
+
+              <div className="hero-particles">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+
+              <div className="hero-float-card card-a">
+                <span>Performance</span>
+                <strong>98</strong>
+              </div>
+
+              <div className="hero-float-card card-b">
+                <span>Conversion Focus</span>
+                <strong>Premium UI</strong>
+              </div>
+
+              <div className="hero-float-card card-c">
+                <span>Delivery</span>
+                <strong>Fast + Reliable</strong>
               </div>
             </div>
           </div>
@@ -416,20 +540,77 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad cta" id="contact" aria-labelledby="cta-title">
-          <div className="container narrow">
-            <h2 id="cta-title">Ready to grow your business?</h2>
-            <a className="btn-outline" href="mailto:hello@viltrumate.com">
-              Get Started
-            </a>
+        <section className="section-pad contact-section" id="contact" aria-labelledby="contact-title">
+          <div className="container contact-container">
+            <header className="contact-header">
+              <h2 id="contact-title">Let&apos;s build something that stands out.</h2>
+              <p>Choose your preferred channel and we&apos;ll get back with a clear plan.</p>
+            </header>
+
+            <div className="contact-grid" role="list" aria-label="Contact methods">
+              <a
+                className="contact-card"
+                href="https://www.instagram.com/viltrumate/"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+              >
+                <span className="contact-label">Instagram</span>
+                <strong>@viltrumate</strong>
+                <p>Follow our latest work, launch updates, and design drops.</p>
+              </a>
+
+              <a
+                className="contact-card"
+                href="https://www.linkedin.com/company/viltrumate-technologies/?lipi=urn%3Ali%3Apage%3Ad_flagship3_detail_base%3BR%2BCeavgSTKmOAa0uwC5k9Q%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+              >
+                <span className="contact-label">LinkedIn</span>
+                <strong>Viltrumate Technologies</strong>
+                <p>Connect for business inquiries, collaborations, and company updates.</p>
+              </a>
+
+              <a className="contact-card" href="tel:+917988280245" role="listitem">
+                <span className="contact-label">Phone</span>
+                <strong>+91 79882 80245</strong>
+                <p>Call directly for quick discussion, scope, and pricing.</p>
+              </a>
+            </div>
+
+            <div className="contact-cta-row">
+              <a className="btn-outline" href="mailto:hello@viltrumate.com">
+                Start Your Project
+              </a>
+              <p>Available for startups, student projects, and serious business builds.</p>
+            </div>
           </div>
         </section>
       </main>
 
       <footer className="site-footer">
         <div className="container footer-wrap">
-          <p>Viltrumate Technologies</p>
-          <p>High-performance digital solutions for serious brands.</p>
+          <div className="footer-brand-block">
+            <p className="footer-brand">Viltrumate Technologies</p>
+            <p className="footer-note">Digital products with premium execution and measurable impact.</p>
+          </div>
+
+          <div className="footer-links" aria-label="Social links">
+            <a href="https://www.instagram.com/viltrumate/" target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
+            <a
+              href="https://www.linkedin.com/company/viltrumate-technologies/?lipi=urn%3Ali%3Apage%3Ad_flagship3_detail_base%3BR%2BCeavgSTKmOAa0uwC5k9Q%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a href="tel:+917988280245">+91 79882 80245</a>
+          </div>
+
+          <p className="footer-copy">© {new Date().getFullYear()} Viltrumate Technologies. All rights reserved.</p>
         </div>
       </footer>
     </>
