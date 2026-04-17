@@ -162,6 +162,7 @@ function App() {
   const finalHeroTitleAria = "Digital Presence your brand deserves.";
   const [isScrambling, setIsScrambling] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isConsultPopupVisible, setIsConsultPopupVisible] = useState(false);
   const [activeStepCount, setActiveStepCount] = useState(0);
   const processStepRefs = useRef([]);
   const heroAmbientRef = useRef(null);
@@ -342,8 +343,28 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const popupDismissed = window.sessionStorage.getItem("consultPopupDismissed") === "1";
+    if (popupDismissed) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsConsultPopupVisible(true);
+    }, 2400);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
   const handleMobileNavClick = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const closeConsultPopup = () => {
+    setIsConsultPopupVisible(false);
+    window.sessionStorage.setItem("consultPopupDismissed", "1");
   };
 
   return (
@@ -433,8 +454,8 @@ function App() {
               </div>
 
               <div className="hero-float-card card-a">
-                <span>Performance</span>
-                <strong>98</strong>
+                <span>Cost</span>
+                <strong>Super Affordable</strong>
               </div>
 
               <div className="hero-float-card card-b">
@@ -651,6 +672,26 @@ function App() {
           </div>
         </section>
       </main>
+
+      {isConsultPopupVisible && (
+        <aside className="consult-popup" role="dialog" aria-label="Get free consultancy" aria-live="polite">
+          <button
+            className="consult-popup-close"
+            type="button"
+            onClick={closeConsultPopup}
+            aria-label="Close consultancy popup"
+          >
+            Close
+          </button>
+          <p className="consult-popup-title">Get Free Consultancy</p>
+          <p className="consult-popup-copy">
+            Need clarity on scope, budget, or timeline? Let&apos;s discuss your project.
+          </p>
+          <a className="btn-outline consult-popup-cta" href="#contact" onClick={closeConsultPopup}>
+            Go to Contact
+          </a>
+        </aside>
+      )}
 
       <footer className="site-footer">
         <div className="container footer-wrap" data-reveal data-reveal-variant="drift-right">

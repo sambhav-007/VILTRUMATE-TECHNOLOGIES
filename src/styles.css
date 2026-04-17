@@ -1389,6 +1389,67 @@ p {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.consult-popup {
+  position: fixed;
+  right: clamp(0.9rem, 2vw, 1.5rem);
+  bottom: clamp(0.9rem, 2.4vw, 1.6rem);
+  width: min(92vw, 22rem);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(6px);
+  padding: 1rem 1rem 0.95rem;
+  z-index: 24;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  animation: consultPopupIn 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.consult-popup-close {
+  display: inline-flex;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.consult-popup-close:hover {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.consult-popup-title {
+  margin-top: 0.3rem;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: clamp(1.15rem, 2.2vw, 1.42rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.consult-popup-copy {
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.consult-popup-cta {
+  margin-top: 0.85rem;
+  width: 100%;
+}
+
+@keyframes consultPopupIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (max-width: 980px) {
   .services-grid,
   .process-line {
@@ -1441,6 +1502,10 @@ p {
 
   .section-kicker {
     margin-bottom: 0.55rem;
+  }
+
+  .consult-popup {
+    width: min(94vw, 21rem);
   }
 
   .process-line li {
@@ -1628,6 +1693,14 @@ p {
 
   .contact-card strong {
     font-size: 1.02rem;
+  }
+
+  .consult-popup {
+    left: 0.8rem;
+    right: 0.8rem;
+    width: auto;
+    bottom: 0.8rem;
+    padding: 0.9rem 0.9rem 0.85rem;
   }
 
   .contact-cta-row p {
