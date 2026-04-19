@@ -426,6 +426,32 @@ p {
   transform: translate3d(var(--parallax-x), var(--parallax-y), 0);
 }
 
+.hero-ambient > div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-ambient > div::before {
+  content: "";
+  position: absolute;
+  inset: 8% 10%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 45% 50%, rgba(232, 235, 240, 0.42), rgba(232, 235, 240, 0) 60%),
+    radial-gradient(circle at 60% 48%, rgba(190, 195, 204, 0.32), rgba(190, 195, 204, 0) 72%);
+  filter: blur(34px);
+  transform: translate3d(calc(var(--parallax-x) * 0.2), calc(var(--parallax-y) * 0.2), 0);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-ambient > div canvas {
+  position: relative;
+  z-index: 1;
+}
+
 .hero-ambient::before {
   content: "";
   position: absolute;
