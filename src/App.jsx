@@ -344,7 +344,7 @@ const Phone3D = ({ cursorX, cursorY }) => {
       </mesh>
 
       {/* Glossy overlay */}
-      <RoundedBox args={[0.8, 1.62, 0.016]} radius={0.074} position={[0, 0, 0.072]}>
+      <RoundedBox args={[0.8, 1.62, 0.016]} radius={0.074} position={[0, 0, 0.0185]}>
         <meshPhysicalMaterial
           transparent
           opacity={0.15}
@@ -374,7 +374,7 @@ const Phone3D = ({ cursorX, cursorY }) => {
       </mesh>
 
       {/* Side button (sleek power key) */}
-      <RoundedBox args={[0.014, 0.165, 0.028]} radius={0.0065} position={[-0.438, 0.31, 0.053]}>
+      <RoundedBox args={[0.014, 0.165, 0.028]} radius={0.0065} position={[-0.432, 0.31, 0.053]}>
         <meshPhysicalMaterial
           color="#9aa0a8"
           metalness={1}
@@ -383,12 +383,12 @@ const Phone3D = ({ cursorX, cursorY }) => {
           clearcoatRoughness={0.12}
         />
       </RoundedBox>
-      <RoundedBox args={[0.005, 0.14, 0.014]} radius={0.002} position={[-0.4345, 0.31, 0.067]}>
+      <RoundedBox args={[0.005, 0.14, 0.014]} radius={0.002} position={[-0.4285, 0.31, 0.067]}>
         <meshPhysicalMaterial color="#f2f4f7" metalness={1} roughness={0.1} />
       </RoundedBox>
 
       {/* Volume buttons (sleek split keys) */}
-      <RoundedBox args={[0.013, 0.104, 0.026]} radius={0.006} position={[-0.438, 0.094, 0.053]}>
+      <RoundedBox args={[0.013, 0.104, 0.026]} radius={0.006} position={[-0.432, 0.094, 0.053]}>
         <meshPhysicalMaterial
           color="#959ca5"
           metalness={1}
@@ -397,7 +397,7 @@ const Phone3D = ({ cursorX, cursorY }) => {
           clearcoatRoughness={0.14}
         />
       </RoundedBox>
-      <RoundedBox args={[0.013, 0.104, 0.026]} radius={0.006} position={[-0.438, -0.074, 0.053]}>
+      <RoundedBox args={[0.013, 0.104, 0.026]} radius={0.006} position={[-0.432, -0.074, 0.053]}>
         <meshPhysicalMaterial
           color="#959ca5"
           metalness={1}
