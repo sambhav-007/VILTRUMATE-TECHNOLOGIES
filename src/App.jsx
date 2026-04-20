@@ -618,6 +618,78 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const mainEl = document.querySelector("main");
+    if (!mainEl) {
+      return undefined;
+    }
+
+    const sections = Array.from(mainEl.querySelectorAll(":scope > section.section-pad"));
+    let rafId = 0;
+    let resizeObserver;
+
+    const applyStack = () => {
+      if (window.innerWidth < 900) {
+        sections.forEach((section, index) => {
+          section.classList.remove("stack-sticky");
+          section.style.setProperty("--stack-z", `${index + 1}`);
+        });
+        return;
+      }
+
+      const rootFontSize =
+        parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
+      const stackTopRaw = window.getComputedStyle(mainEl).getPropertyValue("--stack-top").trim();
+      const stackLiftRaw = window.getComputedStyle(mainEl).getPropertyValue("--stack-lift").trim();
+
+      let stackTopPx = 4.9 * rootFontSize;
+      if (stackTopRaw.endsWith("rem")) {
+        stackTopPx = parseFloat(stackTopRaw) * rootFontSize;
+      } else if (stackTopRaw.endsWith("px")) {
+        stackTopPx = parseFloat(stackTopRaw);
+      }
+
+      let stackLiftPx = 0.55 * rootFontSize;
+      if (stackLiftRaw.endsWith("rem")) {
+        stackLiftPx = parseFloat(stackLiftRaw) * rootFontSize;
+      } else if (stackLiftRaw.endsWith("px")) {
+        stackLiftPx = parseFloat(stackLiftRaw);
+      }
+
+      const availableHeight = window.innerHeight - (stackTopPx - stackLiftPx);
+      const safeHeadroom = 180;
+
+      sections.forEach((section, index) => {
+        section.style.setProperty("--stack-z", `${index + 1}`);
+        const fitsViewport = section.scrollHeight <= availableHeight + safeHeadroom;
+        section.classList.toggle("stack-sticky", fitsViewport);
+      });
+    };
+
+    const scheduleApply = () => {
+      window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(applyStack);
+    };
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(scheduleApply);
+      sections.forEach((section) => resizeObserver.observe(section));
+    }
+
+    scheduleApply();
+    window.addEventListener("resize", scheduleApply);
+    window.addEventListener("load", scheduleApply);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", scheduleApply);
+      window.removeEventListener("load", scheduleApply);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const popupDismissed = window.sessionStorage.getItem("consultPopupDismissed") === "1";
     if (popupDismissed) {
       return undefined;

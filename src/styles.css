@@ -42,6 +42,48 @@ a {
   border-top: 1px solid var(--line-soft);
 }
 
+/* Section stack scroll: each section scrolls fully, and the next section
+   enters by overlapping from below near the boundary. */
+main {
+  --stack-top: 4.9rem;
+  --stack-overlap: clamp(3.4rem, 6.6vw, 5.6rem);
+  --stack-lift: 0.55rem;
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  main > section.section-pad {
+    position: relative;
+    background: var(--bg);
+    z-index: var(--stack-z, 1);
+  }
+
+  main > section.section-pad.stack-sticky {
+    position: sticky;
+    top: calc(var(--stack-top) - var(--stack-lift));
+    isolation: isolate;
+    margin-top: calc(var(--stack-overlap) * -1);
+    padding-bottom: calc(clamp(4.5rem, 9vw, 8.5rem) + var(--stack-overlap));
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0) 120px),
+      var(--bg);
+    box-shadow:
+      0 -42px 72px rgba(0, 0, 0, 0.6),
+      0 -1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  main > section.section-pad.stack-sticky:first-of-type {
+    margin-top: 0;
+  }
+
+  main > section.section-pad:nth-of-type(1) { z-index: 1; }
+  main > section.section-pad:nth-of-type(2) { z-index: 2; }
+  main > section.section-pad:nth-of-type(3) { z-index: 3; }
+  main > section.section-pad:nth-of-type(4) { z-index: 4; }
+  main > section.section-pad:nth-of-type(5) { z-index: 5; }
+  main > section.section-pad:nth-of-type(6) { z-index: 6; }
+}
+
 h1,
 h2,
 h3 {
@@ -360,8 +402,8 @@ p {
 .hero {
   position: relative;
   border-top: 0;
-  min-height: calc(100svh - 4.3rem);
-  padding: clamp(1.2rem, 3.5vh, 2.2rem) 0;
+  min-height: calc(100svh - clamp(4.6rem, 7vw, 5.4rem));
+  padding: clamp(0.05rem, 0.55vh, 0.35rem) 0 clamp(0.95rem, 2.2vh, 1.5rem);
   overflow: hidden;
 }
 
@@ -399,7 +441,7 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: clamp(1.2rem, 4vw, 3.5rem);
-  min-height: calc(100svh - 7rem);
+  min-height: calc(100svh - clamp(6rem, 9vw, 7rem));
   max-width: none;
 }
 
@@ -1473,6 +1515,66 @@ p {
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (min-width: 900px) {
+  .section-pad {
+    padding: clamp(3.1rem, 6vw, 4.8rem) 0;
+  }
+
+  .services-section,
+  .portfolio-section,
+  .contact-section {
+    padding-top: clamp(3.2rem, 6.1vw, 4.9rem);
+    padding-bottom: clamp(3.2rem, 6.1vw, 4.9rem);
+  }
+
+  .process-section,
+  .pricing-section {
+    padding-top: clamp(4.8rem, 9vw, 8rem);
+    padding-bottom: clamp(4.8rem, 9vw, 8rem);
+  }
+
+  .services-header,
+  .portfolio-header,
+  .contact-header {
+    margin-bottom: clamp(1.4rem, 2.8vw, 2.4rem);
+  }
+
+  .services-header h2,
+  .portfolio-header h2,
+  .contact-header h2 {
+    font-size: clamp(2rem, 3.6vw, 3rem);
+  }
+
+  .service-card,
+  .portfolio-card {
+    min-height: 190px;
+    padding: clamp(1.2rem, 2vw, 1.8rem) clamp(1.1rem, 2vw, 1.8rem);
+    gap: 0.7rem;
+  }
+
+  .service-card-title,
+  .portfolio-card-title {
+    font-size: clamp(1.45rem, 1.9vw, 1.9rem);
+  }
+
+  .service-card-copy,
+  .portfolio-card-copy {
+    font-size: clamp(0.92rem, 1vw, 1rem);
+    line-height: 1.4;
+  }
+
+  .contact-card {
+    min-height: 11.2rem;
+    padding: 1.05rem;
+    gap: 0.45rem;
+  }
+
+  .contact-cta-row {
+    margin-top: 0.9rem;
+    padding: 0.8rem 0.95rem;
   }
 }
 
