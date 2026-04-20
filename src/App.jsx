@@ -301,14 +301,22 @@ const Phone3D = ({ cursorX, cursorY }) => {
 
   useFrame(({ clock }) => {
     if (phoneRef.current) {
-      // Smooth cursor following
-      const targetRotationX = (cursorY - 0.5) * 0.5;
-      const targetRotationY = (cursorX - 0.5) * 0.6;
+      const isDesktop = typeof window !== "undefined" && window.innerWidth >= 900;
+      const centeredX = THREE.MathUtils.clamp((cursorX - 0.5) * 2, -1, 1);
+      const centeredY = THREE.MathUtils.clamp((cursorY - 0.5) * 2, -1, 1);
+
+      // Give desktop a wider, freer tilt range while preserving controlled motion on smaller screens.
+      const targetRotationX = centeredY * (isDesktop ? 0.9 : 0.5);
+      const targetRotationY = centeredX * (isDesktop ? 1.05 : 0.6);
+      const targetRotationZ = centeredX * (isDesktop ? 0.2 : 0.08);
+      const smoothFactor = isDesktop ? 0.12 : 0.08;
 
       phoneRef.current.rotation.x +=
-        (targetRotationX - phoneRef.current.rotation.x) * 0.08;
+        (targetRotationX - phoneRef.current.rotation.x) * smoothFactor;
       phoneRef.current.rotation.y +=
-        (targetRotationY - phoneRef.current.rotation.y) * 0.08;
+        (targetRotationY - phoneRef.current.rotation.y) * smoothFactor;
+      phoneRef.current.rotation.z +=
+        (targetRotationZ - phoneRef.current.rotation.z) * smoothFactor;
 
       // Subtle floating animation
       phoneRef.current.position.y =
@@ -628,14 +636,6 @@ function App() {
     let resizeObserver;
 
     const applyStack = () => {
-      if (window.innerWidth < 900) {
-        sections.forEach((section, index) => {
-          section.classList.remove("stack-sticky");
-          section.style.setProperty("--stack-z", `${index + 1}`);
-        });
-        return;
-      }
-
       const rootFontSize =
         parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
       const stackTopRaw = window.getComputedStyle(mainEl).getPropertyValue("--stack-top").trim();
@@ -704,8 +704,60 @@ function App() {
     };
   }, []);
 
-  const handleMobileNavClick = () => {
+  const scrollToSection = (hash, { behavior = "smooth" } = {}) => {
+    if (hash === "#top") {
+      window.scrollTo({
+        top: 0,
+        behavior,
+      });
+      return;
+    }
+
+    const target = document.querySelector(hash);
+    if (!target) {
+      return;
+    }
+
+    const mainEl = document.querySelector("main");
+    const header = document.querySelector(".site-header");
+    const headerOffset = header ? header.getBoundingClientRect().height : 0;
+    const extraOffset = 12;
+
+    if (mainEl) {
+      mainEl.classList.add("stack-measuring");
+    }
+
+    const targetTop = target.offsetTop - headerOffset - extraOffset;
+
+    if (mainEl) {
+      mainEl.classList.remove("stack-measuring");
+    }
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior,
+    });
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      scrollToSection(hash, { behavior: "auto" });
+    });
+  }, []);
+
+  const handleNavLinkClick = (event, hash) => {
+    event.preventDefault();
     setIsMobileMenuOpen(false);
+    scrollToSection(hash);
+
+    if (window.location.hash !== hash) {
+      window.history.pushState(null, "", hash);
+    }
   };
 
   const closeConsultPopup = () => {
@@ -717,7 +769,12 @@ function App() {
     <>
       <header className="site-header" id="top">
         <div className="container nav-wrap">
-          <a className="brand-mark" href="#top" aria-label="Go to top">
+          <a
+            className="brand-mark"
+            href="#top"
+            aria-label="Go to top"
+            onClick={(event) => handleNavLinkClick(event, "#top")}
+          >
             <img src="/viltrumate-logo.png" alt="Viltrumate Technologies" />
           </a>
 
@@ -739,11 +796,12 @@ function App() {
             className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}
             aria-label="Primary navigation"
           >
-            <a href="#services" onClick={handleMobileNavClick}>Services</a>
-            <a href="#portfolio" onClick={handleMobileNavClick}>Portfolio</a>
-            <a href="#process" onClick={handleMobileNavClick}>Process</a>
-            <a href="#pricing" onClick={handleMobileNavClick}>Pricing</a>
-            <a href="#contact" onClick={handleMobileNavClick}>Contact</a>
+            <a href="#top" onClick={(event) => handleNavLinkClick(event, "#top")}>Home</a>
+            <a href="#services" onClick={(event) => handleNavLinkClick(event, "#services")}>Services</a>
+            <a href="#portfolio" onClick={(event) => handleNavLinkClick(event, "#portfolio")}>Portfolio</a>
+            <a href="#process" onClick={(event) => handleNavLinkClick(event, "#process")}>Process</a>
+            <a href="#pricing" onClick={(event) => handleNavLinkClick(event, "#pricing")}>Pricing</a>
+            <a href="#contact" onClick={(event) => handleNavLinkClick(event, "#contact")}>Contact</a>
           </nav>
         </div>
       </header>
@@ -771,10 +829,10 @@ function App() {
                 We design and build sharp, fast websites that look premium and convert cleanly.
               </p>
               <div className="hero-actions">
-                <a className="btn-outline" href="#contact">
+                <a className="btn-outline" href="#contact" onClick={(event) => handleNavLinkClick(event, "#contact")}>
                   Get Started
                 </a>
-                <a className="btn-ghost" href="#portfolio">
+                <a className="btn-ghost" href="#portfolio" onClick={(event) => handleNavLinkClick(event, "#portfolio")}>
                   View Portfolio
                 </a>
               </div>
@@ -1009,7 +1067,14 @@ function App() {
           <p className="consult-popup-copy">
             Need clarity on scope, budget, or timeline? Let&apos;s discuss your project.
           </p>
-          <a className="btn-outline consult-popup-cta" href="#contact" onClick={closeConsultPopup}>
+          <a
+            className="btn-outline consult-popup-cta"
+            href="#contact"
+            onClick={(event) => {
+              closeConsultPopup();
+              handleNavLinkClick(event, "#contact");
+            }}
+          >
             Go to Contact
           </a>
         </aside>
