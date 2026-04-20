@@ -305,11 +305,11 @@ const Phone3D = ({ cursorX, cursorY }) => {
       const centeredX = THREE.MathUtils.clamp((cursorX - 0.5) * 2, -1, 1);
       const centeredY = THREE.MathUtils.clamp((cursorY - 0.5) * 2, -1, 1);
 
-      // Give desktop a wider, freer tilt range while preserving controlled motion on smaller screens.
-      const targetRotationX = centeredY * (isDesktop ? 0.9 : 0.5);
-      const targetRotationY = centeredX * (isDesktop ? 1.05 : 0.6);
-      const targetRotationZ = centeredX * (isDesktop ? 0.2 : 0.08);
-      const smoothFactor = isDesktop ? 0.12 : 0.08;
+      // Keep desktop tilt expressive but slightly more controlled than before.
+      const targetRotationX = centeredY * (isDesktop ? 0.58 : 0.5);
+      const targetRotationY = centeredX * (isDesktop ? 0.69 : 0.6);
+      const targetRotationZ = centeredX * (isDesktop ? 0.11 : 0.08);
+      const smoothFactor = isDesktop ? 0.1 : 0.08;
 
       phoneRef.current.rotation.x +=
         (targetRotationX - phoneRef.current.rotation.x) * smoothFactor;
