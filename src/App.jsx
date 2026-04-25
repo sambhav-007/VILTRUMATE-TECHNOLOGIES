@@ -48,7 +48,7 @@ const portfolioItems = [
 const pricingPlans = [
   {
     title: "Dynamic Landing Site",
-    price: "₹4,999",
+    price: "₹5,999",
     description:
       "A high-performance landing page designed to launch fast and look sharp from day one.",
     features: [
@@ -67,7 +67,7 @@ const pricingPlans = [
   },
   {
     title: "Business Website",
-    price: "₹7,999",
+    price: "₹8,999",
     description:
       "A complete business website with essential admin control and a more flexible content structure.",
     features: [
@@ -91,7 +91,7 @@ const pricingPlans = [
   },
   {
     title: "Premium / Custom Solution",
-    price: "₹14,999+",
+    price: "₹15,999+",
     description:
       "A fully dynamic, scalable system with advanced controls for custom business needs.",
     features: [
