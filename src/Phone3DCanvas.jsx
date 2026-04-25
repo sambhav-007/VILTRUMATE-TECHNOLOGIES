@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { RoundedBox } from "@react-three/drei";
+import { RoundedBox, Sparkles } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 import { Timer } from "three/src/core/Timer.js";
 
@@ -280,7 +281,9 @@ const Phone3DCanvas = () => {
       <ambientLight intensity={0.8} />
       <directionalLight position={[5, 5, 5]} intensity={1.2} />
       <pointLight position={[-5, 5, 5]} intensity={0.6} color="#8888ff" />
+      <Sparkles count={120} scale={8} size={2} speed={0.2} opacity={0.4} color="#a088ff" />
       <Phone3D cursorX={cursorX} cursorY={cursorY} />
+
     </Canvas>
   );
 };

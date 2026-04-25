@@ -1,4 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CustomCursor, MagneticWrapper, InfiniteMarquee } from "./UIEnhancements";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Phone3DCanvas = lazy(() => import("./Phone3DCanvas"));
 
@@ -299,37 +304,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const revealTargets = Array.from(document.querySelectorAll("[data-reveal]"));
-
-    if (revealTargets.length === 0) {
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries, currentObserver) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            return;
-          }
-
-          entry.target.classList.add("is-visible");
-          currentObserver.unobserve(entry.target);
-        });
-      },
-      {
-        threshold: 0.14,
-        rootMargin: "0px 0px -8% 0px",
-      }
-    );
+    const revealTargets = gsap.utils.toArray("[data-reveal]");
+    if (revealTargets.length === 0) return;
 
     revealTargets.forEach((target) => {
-      const delay = target.getAttribute("data-reveal-delay") || "0";
-      target.style.setProperty("--reveal-delay", `${delay}ms`);
-      observer.observe(target);
+      ScrollTrigger.create({
+        trigger: target,
+        start: "top 88%",
+        onEnter: () => target.classList.add("is-visible"),
+        once: true
+      });
     });
 
     return () => {
-      observer.disconnect();
+      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
@@ -488,6 +476,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <header className="site-header" id="top">
         <div className="container nav-wrap">
           <a
@@ -550,12 +539,16 @@ function App() {
                 We design and build sharp, fast websites that look premium and convert cleanly.
               </p>
               <div className="hero-actions">
-                <a className="btn-outline" href="#contact" onClick={(event) => handleNavLinkClick(event, "#contact")}>
-                  Get Started
-                </a>
-                <a className="btn-ghost" href="#portfolio" onClick={(event) => handleNavLinkClick(event, "#portfolio")}>
-                  View Portfolio
-                </a>
+                <MagneticWrapper>
+                  <a className="btn-outline" href="#contact" onClick={(event) => handleNavLinkClick(event, "#contact")}>
+                    Get Started
+                  </a>
+                </MagneticWrapper>
+                <MagneticWrapper>
+                  <a className="btn-ghost" href="#portfolio" onClick={(event) => handleNavLinkClick(event, "#portfolio")}>
+                    View Portfolio
+                  </a>
+                </MagneticWrapper>
               </div>
               <div className="hero-trust" aria-label="Key benefits">
                 <span>Premium quality</span>
@@ -565,13 +558,14 @@ function App() {
             </div>
 
             <div className="hero-ambient" aria-hidden="true" ref={heroAmbientRef} data-reveal data-reveal-variant="drift-right" data-reveal-delay="160">
-              <div style={{ width: "100%", height: "100%", minHeight: "500px" }}>
+              <div style={{ width: "100%", height: "100%" }}>
                 <Suspense fallback={null}>
                   <Phone3DCanvas />
                 </Suspense>
               </div>
             </div>
           </div>
+          <InfiniteMarquee />
         </section>
 
         <section className="section-pad services-section" id="services" aria-labelledby="services-title">
