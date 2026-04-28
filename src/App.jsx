@@ -54,17 +54,19 @@ const pricingPlans = [
     title: "Dynamic Landing Site",
     price: "₹5,999",
     description:
-      "A high-performance landing page designed to launch fast and look sharp from day one.",
+      "A stunning, high-converting static landing page built with latest design trends and technologies—perfect for portfolios, restaurants, resorts, and creative businesses.",
     features: [
-      "Fully responsive across all devices",
-      "One-time developed landing page",
-      "Unlimited bandwidth & hosting-ready structure",
-      "WhatsApp chat integration",
-      "Conversion-focused inquiry form",
-      "Clean, modern UI design",
-      "Social media integration",
-      "Basic SEO setup",
-      "24/7 support",
+      "Pixel-perfect custom UI/UX design with latest design trends",
+      "Single high-impact landing page (mobile-first responsive)",
+      "Built with modern tech stack (React, optimized performance)",
+      "Advanced CSS animations & micro-interactions",
+      "WhatsApp & Email contact forms with auto-responses",
+      "Google Analytics integration for tracking",
+      "On-page SEO optimization (meta tags, schema markup, readability)",
+      "Social media links & business profile integration",
+      "Fast loading speeds (optimized for <2s load time)",
+      "Email support (24-48hr response)",
+      "Deployment & domain setup assistance",
     ],
     cta: "Get Started",
     accent: "blue",
@@ -73,20 +75,24 @@ const pricingPlans = [
     title: "Business Website",
     price: "₹8,999",
     description:
-      "A complete business website with essential admin control and a more flexible content structure.",
+      "A feature-rich static website with advanced filtering, sorting, and recommendation engines—ideal for property dealers, e-commerce listings, and businesses with growing catalogs.",
     features: [
-      "Fully responsive design",
-      "WhatsApp integration",
-      "Inquiry forms",
-      "SEO-ready structure",
-      "Modern UI",
-      "Multi-page website (3–5 pages)",
-      "Basic admin panel (edit text/images)",
-      "Service & content sections",
-      "Image gallery",
-      "Google Maps integration",
-      "Faster performance optimization",
-      "Improved UX for higher engagement",
+      "Everything from Dynamic Landing Site, plus:",
+      "5-12 custom pages with flexible layout options",
+      "Advanced filtering & sorting system (by price, category, location, ratings)",
+      "Smart recommendation engine (shows similar/related items)",
+      "Dynamic content sections (hero slider, featured listings, testimonials)",
+      "High-performance image gallery with lazy loading",
+      "Search functionality across all listings/content",
+      "Google Maps integration (business location, store locators)",
+      "Mobile-optimized for touch interactions & fast navigation",
+      "Advanced SEO (keyword optimization, sitemap, structured data for listings)",
+      "Social sharing optimization (Open Graph meta tags)",
+      "Bulk inquiry form submission system",
+      "Email marketing integration ready",
+      "Post-launch support included",
+      "Traffic analytics dashboard setup",
+      "One strategy session on content organization",
     ],
     cta: "Get Started",
     badges: ["Most Popular", "Best Value"],
@@ -97,22 +103,28 @@ const pricingPlans = [
     title: "Premium / Custom Solution",
     price: "₹15,999+",
     description:
-      "A fully dynamic, scalable system with advanced controls for custom business needs.",
+      "A fully dynamic, scalable platform with advanced admin panel, API integrations, AI-powered features, and unlimited customization—for businesses that need growth, automation, and competitive advantage.",
     features: [
-      "Multi-page structure",
-      "Admin panel",
-      "Performance optimization",
-      "SEO-ready setup",
-      "Fully custom UI/UX design",
-      "Advanced admin panel (dynamic control)",
-      "Database integration (MongoDB)",
-      "Dynamic content management",
-      "API integrations (payments, third-party tools)",
-      "Advanced scalability setup",
-      "Priority support",
-      "Custom feature development",
+      "Everything from Business Website, plus:",
+      "Unlimited pages & dynamic content management",
+      "Advanced admin panel (edit content, upload media, manage users, analytics)",
+      "Database-driven (MongoDB) for unlimited listings/products",
+      "AI-powered features (smart search, personalized recommendations, auto-tagging)",
+      "Payment gateway integration (Stripe, Razorpay, PayPal)",
+      "E-commerce functionality (shopping cart, order management, inventory)",
+      "User authentication & role-based access control",
+      "API integrations (CRM, email marketing, booking systems, Slack, WhatsApp Business)",
+      "Custom feature development (2-3 modules tailored to business logic)",
+      "Blog/Content management system with SEO tools",
+      "Advanced analytics & reporting dashboard",
+      "Performance optimization + CDN for global speed",
+      "Security hardening (SSL, WAF, data encryption)",
+      "Mobile app-ready backend API structure",
+      "Priority support (Slack + email, 4-hour response)",
+      "Quarterly performance & UX audit included",
+      "Built for scale",
     ],
-    cta: "Contact Us",
+    cta: "Get Started",
     badges: ["For Serious Businesses"],
     accent: "red",
   },
@@ -163,6 +175,265 @@ const processSteps = [
   },
 ];
 
+const parseInrAmount = (priceText) => Number(priceText.replace(/[^\d]/g, ""));
+
+const formatInrAmount = (amount) => `₹${amount.toLocaleString("en-IN")}`;
+
+const genInvoiceId = () =>
+  "VLT-WEB-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+
+const today = () => {
+  const d = new Date();
+  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
+};
+
+const nextDate = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 7);
+  return d.toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" });
+};
+
+const buildWhatsappUrl = (message) =>
+  `https://wa.me/917988280245?text=${encodeURIComponent(message)}`;
+
+const PricingPurchaseSuccess = ({ plan, onReset }) => {
+  const invoiceId = useRef(genInvoiceId()).current;
+  const totalINR = parseInrAmount(plan.price);
+
+  return (
+    <div className="success-page">
+      <div className="success-glow" />
+
+      <div className="success-card">
+        <div className="success-badge">
+          <span className="success-check">✓</span>
+        </div>
+
+        <div className="success-top-text">
+          <p className="success-label">Checkout Confirmed</p>
+          <h1 className="success-heading">Thank you for your order!</h1>
+          <p className="success-sub">
+            A confirmation has been sent to your registered email address.<br />
+            Your project kickoff call will be scheduled within <strong>24 hours</strong>.
+          </p>
+        </div>
+
+        <div className="invoice-card">
+          <div className="invoice-header">
+            <div>
+              <div className="invoice-brand">VILTRUMATE</div>
+              <div className="invoice-brand-sub">TECHNOLOGIES</div>
+            </div>
+            <div className="invoice-meta-right">
+              <div className="invoice-tag">ORDER SUMMARY</div>
+              <div className="invoice-id">#{invoiceId}</div>
+              <div className="invoice-date">{today()}</div>
+            </div>
+          </div>
+
+          <div className="invoice-divider" />
+
+          <div className="invoice-parties">
+            <div className="invoice-party">
+              <span className="party-label">From</span>
+              <strong>Viltrumate Technologies</strong>
+              <span>Mumbai, Maharashtra, India</span>
+              <span>hello@viltrumate.com</span>
+            </div>
+            <div className="invoice-party invoice-party-right">
+              <span className="party-label">Timeline</span>
+              <strong>Project Kickoff</strong>
+              <span>Initial discovery within 24 hours</span>
+              <span>Next update by: {nextDate()}</span>
+            </div>
+          </div>
+
+          <div className="invoice-divider" />
+
+          <table className="invoice-table">
+            <thead>
+              <tr>
+                <th>Package</th>
+                <th>Type</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>{plan.title}</strong>
+                  <span className="item-sub">{plan.features.slice(0, 4).join(" · ")}</span>
+                </td>
+                <td>One-time</td>
+                <td>{formatInrAmount(totalINR)}</td>
+                <td>{formatInrAmount(totalINR)}</td>
+              </tr>
+              <tr className="subtotal-row">
+                <td colSpan={3}>Subtotal</td>
+                <td>{formatInrAmount(totalINR)}</td>
+              </tr>
+              <tr>
+                <td colSpan={3}>Consultation &amp; Setup</td>
+                <td className="included-cell">Included</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr className="total-row">
+                <td colSpan={3}>Total Charged</td>
+                <td>
+                  <div className="total-usd">{formatInrAmount(totalINR)}</div>
+                  <div className="total-inr">Final package confirmation on call</div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div className="invoice-divider" />
+
+          <div className="invoice-specs-row">
+            {plan.features.map((f) => (
+              <div className="invoice-spec-chip" key={f}>
+                <span className="chip-dot">◈</span>
+                {f}
+              </div>
+            ))}
+          </div>
+
+          <div className="invoice-footer-note">
+            <span className="lock-icon">🔒</span>
+            This is a computer-generated order summary and does not require a physical signature. · Powered by <strong>Viltrumate Secure Delivery Workflow</strong>
+          </div>
+        </div>
+
+        <div className="success-actions">
+          <MagneticWrapper>
+            <button className="btn-outline" onClick={() => window.print()}>
+              Download / Print Summary
+            </button>
+          </MagneticWrapper>
+          <button className="success-back-link" onClick={onReset}>
+            ← Return to Pricing
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PricingCheckoutDrawer = ({ plan, onClose, onConfirm }) => {
+  const finalINR = parseInrAmount(plan.price);
+  const drawerBodyRef = useRef(null);
+
+  useEffect(() => {
+    // Lock background scroll on both html and body for robustness
+    const scrollY = window.scrollY || window.pageYOffset;
+
+    // Freeze background by fixing body position and preserving scroll offset
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.documentElement.style.overflow = "hidden";
+
+    // No global wheel/touch interception — rely on body fixed positioning
+    // to prevent background scrolling while allowing native scroll inside the drawer.
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.documentElement.style.overflow = "";
+
+      // Restore original scroll position
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
+
+  // Wheel handler to ensure mouse wheel/trackpad scrolls the drawer body
+  const handleWheel = (e) => {
+    const el = drawerBodyRef.current;
+    if (!el) return;
+    // If the drawer body can scroll in the direction, scroll it and prevent background
+    el.scrollTop += e.deltaY;
+    e.preventDefault();
+  };
+
+  return (
+    <div className="checkout-backdrop" onClick={(event) => event.target === event.currentTarget && onClose()}>
+      <div className="checkout-drawer" onWheel={handleWheel}>
+        <div className="drawer-header">
+          <div>
+            <span className="drawer-kicker">Order Summary</span>
+            <h2 className="drawer-title">{plan.title}</h2>
+          </div>
+          <button className="drawer-close" onClick={onClose} aria-label="Close checkout">
+            ✕
+          </button>
+        </div>
+
+        <div className="drawer-body" ref={drawerBodyRef}>
+          <div className="drawer-section">
+            <span className="drawer-section-label">Package Highlights</span>
+            <ul className="drawer-specs">
+              {plan.features.map((feature) => (
+                <li key={feature}>
+                  <span className="spec-icon">◈</span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="drawer-divider" />
+
+          <div className="drawer-section">
+            <span className="drawer-section-label">Billing Breakdown</span>
+            <div className="bill-row">
+              <span>Website Development Package</span>
+              <span>{formatInrAmount(finalINR)}</span>
+            </div>
+            <div className="bill-row">
+              <span>Consultation &amp; Planning</span>
+              <span className="bill-free">Included</span>
+            </div>
+            <div className="bill-row">
+              <span>Setup &amp; Onboarding</span>
+              <span className="bill-free">Included</span>
+            </div>
+            <div className="bill-row">
+              <span>Taxes &amp; Charges</span>
+              <span className="bill-free">Included</span>
+            </div>
+          </div>
+
+          <div className="drawer-divider" />
+
+          <div className="bill-total-block">
+            <div className="bill-total-row">
+              <span>Total Due</span>
+              <div className="bill-total-amounts">
+                <span className="bill-total-usd">{formatInrAmount(finalINR)}</span>
+                <span className="bill-total-inr">One-time package fee</span>
+              </div>
+            </div>
+            <p className="bill-tax-note">No hidden fees. Final scope is confirmed before development starts.</p>
+          </div>
+        </div>
+
+        <div className="drawer-footer">
+          <MagneticWrapper>
+            <button className="btn-outline drawer-cta" onClick={onConfirm}>
+              Proceed to Secure Checkout →
+            </button>
+          </MagneticWrapper>
+          <p className="drawer-secure-note">🔒 Secured by Viltrumate · 256-bit Encrypted</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 function App() {
   const finalHeroTitle = "Digital Presence\nyour brand\ndeserves.";
@@ -172,6 +443,8 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isConsultPopupVisible, setIsConsultPopupVisible] = useState(false);
   const [activeStepCount, setActiveStepCount] = useState(0);
+  const [selectedPricingPlan, setSelectedPricingPlan] = useState(null);
+  const [purchasedPlan, setPurchasedPlan] = useState(null);
   const processStepRefs = useRef([]);
   const heroAmbientRef = useRef(null);
 
@@ -474,6 +747,45 @@ function App() {
     window.sessionStorage.setItem("consultPopupDismissed", "1");
   };
 
+  const openPricingCheckout = (plan) => {
+    setSelectedPricingPlan(plan);
+  };
+
+  const closePricingCheckout = () => {
+    setSelectedPricingPlan(null);
+  };
+
+  const handlePricingCheckoutConfirm = () => {
+    if (!selectedPricingPlan) {
+      return;
+    }
+
+    const packageName = selectedPricingPlan.title;
+    const packagePrice = selectedPricingPlan.price;
+    const whatsappNumber = "917988280245";
+    const message = `Hi, I am interested in the ${packageName} package priced at ${packagePrice}. Please share more details about the package, timeline, and next steps. Looking forward to your response.`;
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    setSelectedPricingPlan(null);
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handlePricingCheckoutReset = () => {
+    setPurchasedPlan(null);
+    window.requestAnimationFrame(() => {
+      scrollToSection("#pricing");
+    });
+  };
+
+  if (purchasedPlan) {
+    return (
+      <>
+        <CustomCursor />
+        <PricingPurchaseSuccess plan={purchasedPlan} onReset={handlePricingCheckoutReset} />
+      </>
+    );
+  }
+
   return (
     <>
       <CustomCursor />
@@ -516,7 +828,7 @@ function App() {
         </div>
       </header>
 
-      <main>
+      <main style={selectedPricingPlan ? { filter: "blur(3px) brightness(0.5)", pointerEvents: "none" } : undefined}>
         <section className="hero section-pad" aria-label="Viltrumate Technologies hero">
           <div className="container hero-inner">
             <div className="hero-copy" data-reveal data-reveal-variant="drift-left" data-reveal-delay="0">
@@ -690,12 +1002,13 @@ function App() {
                     ))}
                   </ul>
 
-                  <a
+                  <button
                     className="btn-outline pricing-cta"
-                    href={plan.cta === "Contact Us" ? "mailto:hello@viltrumate.com" : "#contact"}
+                    type="button"
+                    onClick={() => openPricingCheckout(plan)}
                   >
                     {plan.cta}
-                  </a>
+                  </button>
                 </article>
               ))}
             </div>
@@ -786,13 +1099,17 @@ function App() {
           </p>
           <a
             className="btn-outline consult-popup-cta"
-            href="#contact"
+            href={buildWhatsappUrl(
+              "Hi, I would like to have a free consultation for my project. Please share a suitable time and the next steps."
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(event) => {
               closeConsultPopup();
-              handleNavLinkClick(event, "#contact");
+              event.stopPropagation();
             }}
           >
-            Go to Contact
+            Book Free Consultation on WhatsApp
           </a>
         </aside>
       )}
@@ -821,6 +1138,14 @@ function App() {
           <p className="footer-copy">© {new Date().getFullYear()} Viltrumate Technologies. All rights reserved.</p>
         </div>
       </footer>
+
+      {selectedPricingPlan && (
+        <PricingCheckoutDrawer
+          plan={selectedPricingPlan}
+          onClose={closePricingCheckout}
+          onConfirm={handlePricingCheckoutConfirm}
+        />
+      )}
     </>
   );
 }
