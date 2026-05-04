@@ -46,6 +46,10 @@
     <link rel="icon" type="image/png" href="/v-logo.png" />
     <link rel="apple-touch-icon" href="/v-logo.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Preload critical images for LCP -->
+    <link rel="preload" as="image" href="/viltrumate-logo.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/image.png" />
 
     <!-- DNS Prefetch for faster font CDN resolution -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />

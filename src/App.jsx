@@ -802,7 +802,14 @@ function App() {
             aria-label="Go to top"
             onClick={(event) => handleNavLinkClick(event, "#top")}
           >
-            <img src="/viltrumate-logo.png" alt="Viltrumate Technologies" />
+            <img 
+              src="/viltrumate-logo.png" 
+              alt="Viltrumate Technologies"
+              fetchpriority="high"
+              width="213"
+              height="53"
+              loading="eager"
+            />
           </a>
 
           <button
