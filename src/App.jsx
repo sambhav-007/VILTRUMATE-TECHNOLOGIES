@@ -37,6 +37,11 @@ const portfolioItems = [
     link: "https://www.duaproperty.com",
   },
   {
+    title: "Aura Rare Beauty",
+    description: "Luxury beauty brand website with immersive design, product showcases, and seamless booking experience, and an admin panel.",
+    link: "https://www.aura-rare.com",
+  },
+  {
     title: "Kabana De Nature",
     description: "Luxury eco-resort website with immersive design, booking flow, and direct conversion focus.",
     link: "https://www.kabanadenatureresort.com",
