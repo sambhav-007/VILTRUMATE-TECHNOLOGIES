@@ -1109,7 +1109,7 @@ function App() {
               event.stopPropagation();
             }}
           >
-            Book Free Consultation on WhatsApp
+            Book Free Consultation
           </a>
         </aside>
       )}
