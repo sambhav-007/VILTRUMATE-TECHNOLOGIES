@@ -17,4 +17,8 @@ export default defineConfig({
       },
     },
   },
+  // Optimize CSS delivery
+  css: {
+    codeSplit: false,
+  },
 });
