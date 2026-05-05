@@ -44,7 +44,7 @@ const portfolioItems = [
   {
     title: "Kabana De Nature",
     description: "Luxury eco-resort website with immersive design, booking flow, and direct conversion focus.",
-    link: "",
+    link: "https://www.kabanadenatureresort.com",
   },
   {
     title: "Sambhav Sehgal",
